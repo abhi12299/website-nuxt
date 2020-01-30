@@ -1,0 +1,106 @@
+<template>
+  <div class="container">
+    <div>
+      <h1 class="title">
+        About page!
+      </h1>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  // validate() {
+  //   throw new Error('err')
+  // },
+  data() {
+    return {
+      metaDesc: `Hi! I am Abhishek. I love developing web apps, especially server side applications.`,
+      title: 'Abhishek Mehandiratta | Web Developer'
+    }
+  },
+  head() {
+    return {
+      title: 'Abhishek Mehandiratta | Web Developer',
+      meta: [
+        { hid: 'description', name: 'description', content: this.metaDesc },
+        {
+          hid: 'keywords',
+          name: 'keywords',
+          content: 'Abhishek, Mehandiratta, Developer, Web'
+        },
+        { hid: 'author', name: 'author', content: 'Abhishek Mehandiratta' },
+        { hid: 'og:site_name', name: 'og:site_name', content: this.title },
+        { hid: 'og:title', name: 'og:title', content: this.title },
+        { hid: 'og:type', name: 'og:type', content: 'website' },
+        {
+          hid: 'og:description',
+          name: 'og:description',
+          content: this.metaDesc
+        },
+        {
+          hid: 'og:image',
+          name: 'og:image',
+          content: 'https://iabhishek.dev/static/logo.png'
+        },
+        { hid: 'og:url', name: 'og:url', content: 'https://iabhishek.dev' },
+        {
+          hid: 'twitter:card',
+          name: 'twitter:card',
+          content: 'https://iabhishek.dev/static/logo.png'
+        },
+        {
+          hid: 'twitter:site',
+          name: 'twitter:site',
+          content: 'https://iabhishek.dev'
+        },
+        {
+          hid: 'twitter:creator',
+          name: 'twitter:creator',
+          content: '@abhishek_m'
+        },
+        { hid: 'twitter:title', name: 'twitter:title', content: this.title },
+        {
+          hid: 'twitter:description',
+          name: 'twitter:description',
+          content: this.metaDesc
+        }
+      ],
+      link: [
+        { rel: 'canonical', href: `https://iabhishek.dev${this.$route.path}` }
+      ],
+      script: [
+        {
+          type: 'application/ld+json',
+          json: {
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            publisher: {
+              '@type': 'Organization',
+              name: 'Abhishek Mehandiratta | Web Developer',
+              logo: {
+                '@type': 'ImageObject',
+                url: 'https://iabhishek.dev/static/png/logo.png',
+                width: 80,
+                height: 80
+              }
+            },
+            url: 'https://iabhishek.dev',
+            image: {
+              '@type': 'ImageObject',
+              url: 'https://iabhishek.dev/static/png/logo.png',
+              width: 80,
+              height: 80
+            },
+            mainEntityOfPage: {
+              '@type': 'WebPage',
+              '@id': 'https://iabhishek.dev'
+            },
+            description: 'Web Developer'
+          }
+        }
+      ]
+    }
+  }
+}
+</script>
