@@ -2,7 +2,7 @@
   <div class="section search-section">
     <div class="container search-overall-container">
       <!-- admin dropdowns -->
-      <div class="admin-search-nav row mx-auto">
+      <div v-if="admin" class="admin-search-nav row mx-auto">
         <div class="col-lg-6 col-md-6 col-12">
           <div class="dropdown-label">Sort By:</div>
           <div class="sort-dropdown-wrapper mx-auto">
@@ -33,9 +33,9 @@
         <div class="search-container mx-auto">
           <input
             ref="searchFieldRef"
-            @change="handleSearchInputChange"
-            @keydown="handleSearchInputKeydown"
-            v-model="q"
+            v-on:input="handleSearchInputChange"
+            @keydown.enter="handleSearchInputKeydown"
+            :value="q"
             type="text"
             placeholder="Search here.."
           />
@@ -44,7 +44,7 @@
       </div>
       <SuggestionResults
         v-if="suggestions"
-        :adminButtons="true"
+        :adminButtons="admin"
         :searchQuery="searchQuery"
         :loading="loading"
         :suggestions="suggestions"
@@ -55,6 +55,8 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+import { showToast } from '../utils/toasts'
 import Dropdown from './Dropdown'
 import SuggestionResults from './SuggestionResults'
 
@@ -62,21 +64,6 @@ export default {
   components: {
     Dropdown,
     SuggestionResults
-  },
-  props: {
-    loading: {
-      type: Boolean,
-      default: false
-    },
-    // admin: Boolean,
-    suggestions: {
-      type: Array,
-      default: () => []
-    },
-    searchQuery: {
-      type: String,
-      default: ''
-    }
   },
   data() {
     const dropdownSortOptions = [
@@ -103,6 +90,22 @@ export default {
       selectedSearchInDropdownOption: dropdownSearchInOptions[0]
     }
   },
+  computed: {
+    ...mapState({
+      admin: (state) => state.auth.admin,
+      loading: (state) => state.search.loading,
+      suggestions: (state) => state.search.suggestions,
+      searchQuery: (state) => state.search.searchQuery,
+      error: (state) => state.search.error
+    })
+  },
+  updated() {
+    if (this.error) {
+      showToast('Search could not be performed! Please try later', 'error', {
+        preventDuplicates: 1
+      })
+    }
+  },
   mounted() {
     document.documentElement.classList.add('no-scroll')
     this.$refs.searchFieldRef.focus()
@@ -112,15 +115,35 @@ export default {
     window.removeEventListener('keydown', this.escapeKeyCloseSearch)
   },
   methods: {
+    ...mapActions({
+      clearSuggestions: 'search/clearSearchSuggestions',
+      fetchSearchSuggestions: 'search/searchSuggestions'
+    }),
     handleCloseSearch() {
       document.documentElement.classList.remove('no-scroll')
       clearTimeout(this.typingTimeout)
       this.q = ''
-      // this.props.dispatch(actions.searchActions.clearSearchSuggestions()) // clear suggestions
+      this.clearSuggestions()
       this.$emit('closeSearch')
     },
-    handleSearchInputChange() {},
-    handleSearchInputKeydown() {},
+    handleSearchInputChange(e) {
+      let value
+      if (e && e.target) {
+        value = e.target.value
+      } else {
+        value = this.$refs.searchFieldRef.value
+      }
+      clearTimeout(this.typingTimeout)
+      this.typingTimeout = setTimeout(
+        this.getSearchSuggestions,
+        value.trim().length ? 500 : 0
+      )
+      this.q = value
+    },
+    handleSearchInputKeydown() {
+      clearTimeout(this.typingTimeout)
+      this.handleSearch()
+    },
     handleSearch() {
       let query = this.q
       query = query.trim()
@@ -128,18 +151,19 @@ export default {
       if (query.length < 1) {
         return
       }
-      // let searchQuery = { q: query }
-      // if (admin) {
-      //   searchQuery = {
-      //     ...searchQuery,
-      //     ...dropdownSearchInOptions[selectedIndexSearchIn].query,
-      //     ...dropdownSortOptions[selectedIndexSort].query
-      //   }
-      // }
+      let searchQuery = { q: query }
+      if (this.admin) {
+        searchQuery = {
+          ...searchQuery,
+          ...this.selectedSortDropdownOption.query,
+          ...this.selectedSearchInDropdownOption.query
+        }
+      }
       this.handleCloseSearch()
-      // this.$router.push({
-      //
-      // })
+      this.$router.push({
+        name: 'search',
+        query: searchQuery
+      })
     },
     escapeKeyCloseSearch(e) {
       if (e.keyCode === 27) {
@@ -148,13 +172,37 @@ export default {
     },
     handleSortDropdownChange(payload) {
       this.selectedSortDropdownOption = payload
+      this.handleSearchInputChange()
     },
     handleSearchInDropdownChange(payload) {
       this.selectedSearchInDropdownOption = payload
+      this.handleSearchInputChange()
     },
     handleSuggestionClick(url) {
       this.handleCloseSearch()
       this.$router.push(url)
+    },
+    getSearchSuggestions() {
+      let q = this.q
+      // remove left whitespace
+      q = q.trimLeft()
+      // remove whitespace on right end side that occurs more than once
+      q = q.replace(/\s{2,}$/, '')
+
+      if (q.length < 1) {
+        this.clearSuggestions()
+        return
+      }
+
+      if (this.admin) {
+        this.fetchSearchSuggestions({
+          q,
+          ...this.selectedSortDropdownOption.query,
+          ...this.selectedSearchInDropdownOption.query
+        })
+      } else {
+        this.fetchSearchSuggestions({ q })
+      }
     }
   }
 }

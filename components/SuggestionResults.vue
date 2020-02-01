@@ -1,35 +1,35 @@
 <template>
   <div class="search-suggestions-container container">
-    <div v-if="loading">
+    <div v-if="$props.loading">
       <div class="search-suggestions-result">
         <p class="title">Searching...</p>
       </div>
     </div>
-    <div v-else-if="suggestions.length === 0" class="search-suggestions-result">
+    <div
+      v-else-if="$props.suggestions.length === 0"
+      class="search-suggestions-result"
+    >
       <p class="title">No results found.. Try some different keywords</p>
     </div>
-    <div v-else>
-      <div
-        v-for="s in suggestion"
-        :key="s._id"
-        class="search-suggestions-result"
-      >
-        <a @click="handleSuggestionClick(s)">
-          <div class="title">
-            {{ s.title }}
-            <p
-              v-if="adminButtons"
-              :class="
-                `search-publish-indicator ${s.published ? 'pub' : 'unpub'}`
-              "
-            >
-              {{ s.published ? 'Published' : 'Unpublished' }}
-            </p>
-          </div>
-          <p v-html="postBodyMatchedText(s.body)" class="post-body-text"></p>
-        </a>
-      </div>
-      <div class="sep" />
+    <div
+      v-else
+      v-for="(s, idx) in $props.suggestions"
+      :key="s._id"
+      class="search-suggestions-result"
+    >
+      <a @click="handleSuggestionClick(s)">
+        <div class="title">
+          {{ s.title }}
+          <p
+            v-if="$props.adminButtons"
+            :class="`search-publish-indicator ${s.published ? 'pub' : 'unpub'}`"
+          >
+            {{ s.published ? 'Published' : 'Unpublished' }}
+          </p>
+        </div>
+        <p v-html="postBodyMatchedText(s.body)" class="post-body-text"></p>
+      </a>
+      <div v-if="idx !== $props.suggestions.length - 1" class="sep" />
     </div>
   </div>
 </template>
@@ -127,6 +127,10 @@ export default {
 
 .search-suggestions-result .post-body-text::before {
   content: '> ';
+}
+
+.sep {
+  border-bottom: 1px solid gray;
 }
 
 @media (max-width: 768px) {

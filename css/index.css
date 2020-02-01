@@ -330,7 +330,7 @@ blockquote p {
   overflow: hidden;
 }
 
-.button-4 a {
+.button-4 span {
   font-size: 14px;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -386,7 +386,7 @@ blockquote p {
   z-index: 1;
 }
 
-.button-4:hover a:hover {
+.button-4:hover span:hover {
   color: #fff !important;
 }
 
@@ -398,15 +398,11 @@ blockquote p {
   left: 0;
 }
 
-.button-4:hover a {
+.button-4:hover span {
   color: #fff;
 }
 
 .button-4:hover button {
-  color: #fff;
-}
-
-.button-4:hover .send_message {
   color: #fff;
 }
 

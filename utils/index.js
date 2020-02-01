@@ -1,3 +1,4 @@
 import getMatchedText from './getMatchedText'
+import getDateParts from './getDateParts'
 
-export default { getMatchedText }
+export default { getMatchedText, getDateParts }

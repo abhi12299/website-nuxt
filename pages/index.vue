@@ -1,34 +1,44 @@
 <template>
   <div class="container">
-    <div>
-      <h1 class="title">
-        website-nuxt
-      </h1>
-      <h2 class="subtitle" style="height: 10000px">
-        My superb Nuxt.js project
-      </h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green">
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
+    <LatestPosts />
   </div>
 </template>
 
 <script>
+import cookie from 'js-cookie'
+import { showToast } from '../utils/toasts'
+import LatestPosts from '~/components/LatestPosts'
+
 export default {
+  layout: 'page',
+  components: {
+    LatestPosts
+  },
   data() {
     return {
       metaDesc: `Hi! I am Abhishek. I love developing web apps, especially server side applications.`,
       title: 'Abhishek Mehandiratta | Web Developer'
+    }
+  },
+  async fetch({ store, req, error }) {
+    await store.dispatch('auth/authenticate', req)
+    const { auth } = store.state
+    if (auth.initiateForceLogout) {
+      error({
+        statusCode: 400,
+        errorMessage:
+          auth.errorMessage || 'Something went wrong! Please try later.'
+      })
+    } else {
+      await store.dispatch('latestPosts/getLatestPosts')
+    }
+  },
+  mounted() {
+    if (cookie.get('notAdmin')) {
+      cookie.remove('notAdmin', {
+        expires: 1
+      })
+      showToast('You are not a registered admin!', 'error')
     }
   },
   head() {

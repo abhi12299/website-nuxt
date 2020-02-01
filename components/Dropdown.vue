@@ -191,12 +191,14 @@ export default {
 li {
   list-style: none;
 }
-::selection {
+.dd-toggle::selection,
+.dd-menu li::selection {
   color: none;
   background: none;
 }
 /* For Mozilla Firefox */
-::-moz-selection {
+.dd-toggle::-moz-selection,
+.dd-menu li::-moz-selection {
   color: none;
   background: none;
 }

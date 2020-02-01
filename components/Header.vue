@@ -33,7 +33,9 @@
             <nav id="main-menu" class="text-center">
               <ul>
                 <li v-for="(link, index) in links" :key="index">
-                  <nuxt-link :to="link.to">{{ link.name }}</nuxt-link>
+                  <a @click="handleNavlinkClick(link.to)">
+                    {{ link.name }}
+                  </a>
                 </li>
               </ul>
             </nav>
@@ -53,6 +55,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import $ from 'jquery'
 import Search from './Search'
 
@@ -67,6 +70,11 @@ export default {
       showSearch: false,
       showDropdownMenu: false
     }
+  },
+  computed: {
+    ...mapState({
+      admin: (state) => state.auth.admin
+    })
   },
   watch: {
     $route() {
@@ -85,8 +93,7 @@ export default {
   },
   methods: {
     navLinks() {
-      // check for isAdmin
-      if (this.$route.path.startsWith('/dashboard')) {
+      if (this.admin && this.$route.path.startsWith('/dashboard')) {
         return [
           { name: 'View Posts', to: '/dashboard/posts' },
           { name: 'Write A Post', to: '/dashboard/create' },
@@ -119,6 +126,12 @@ export default {
     handleToggleDropdownMenu() {
       this.showDropdownMenu = !this.showDropdownMenu
       $('#main-menu').slideToggle(200)
+    },
+    handleNavlinkClick(to) {
+      this.$router.push(to)
+      if (this.isMobileView) {
+        this.handleToggleDropdownMenu()
+      }
     }
   }
 }
@@ -138,6 +151,7 @@ export default {
 }
 
 .search-mobile-container {
+  cursor: pointer;
   display: inline-block;
   margin-top: 7px;
 }
@@ -424,6 +438,12 @@ export default {
   padding-top: 7px;
 }
 
+#main-menu::selection,
+#main-menu::-moz-selection {
+  color: none;
+  background: none;
+}
+
 #main-menu ul li {
   padding: 0 18px;
   display: inline-block;
@@ -528,7 +548,7 @@ export default {
 }
 
 .side-click {
-  display: inline-block;
+  display: block;
   float: right;
   position: relative;
   width: 30px;

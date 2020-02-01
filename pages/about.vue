@@ -1,22 +1,107 @@
 <template>
   <div class="container">
-    <div>
-      <h1 class="title">
-        About page!
-      </h1>
-    </div>
+    <section class="about-me pad-top-50">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <h2 class="about-me-title">A Little Bit About Me</h2>
+            <div class="about-me-content-bottom">
+              <p class="about-me-content">
+                A MERN Stack Developer based in Delhi. I love to learn new
+                things and experiment with new technologies that come about in
+                the web development community. Besides programming, I also love
+                to play video games :)
+              </p>
+              <hr class="sep" />
+              <div class="experience">
+                <b>Work Experience</b>
+                <ul>
+                  <li>
+                    MERN Stack Developer @<a
+                      href="https://so.city"
+                      target="_blank"
+                      rel="noopener"
+                      >SoDelhi</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div
+            class="d-none d-lg-block d-md-block col-lg-5 col-md-5 offset-md-1 offset-lg-1 text-center my-auto"
+          >
+            <img
+              src="~/assets/png/about-me.png"
+              alt="banner-right"
+              class="banner-right-about-me"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- tech stack -->
+    <section class="tech-stack pad-top">
+      <div class="container">
+        <div class="row">
+          <div
+            class="d-none d-lg-block d-md-block col-lg-5 col-md-5 text-center my-auto"
+          >
+            <img
+              src="~/assets/png/tech-stack-left-banner.png"
+              alt="banner-left"
+              class="banner-right-tech-stack"
+            />
+          </div>
+          <div
+            class="offset-md-1 offset-lg-1 col-lg-6 col-md-6 tech-stack-content"
+          >
+            <h2 class="tech-stack-title">Technologies I Work With</h2>
+            <div class="row">
+              <div
+                v-for="tech in myTech"
+                :key="tech"
+                class="col-lg-4 col-md-4 col-sm-4 col-4"
+              >
+                <div class="single-brand-item d-table">
+                  <div class="d-table-cell text-center">
+                    <img
+                      :src="`/logo-${tech.toLowerCase()}.png`"
+                      :alt="tech"
+                      :title="tech"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
+import myTech from '~/constants/myTech'
+
 export default {
-  // validate() {
-  //   throw new Error('err')
-  // },
+  layout: 'page',
   data() {
     return {
       metaDesc: `Hi! I am Abhishek. I love developing web apps, especially server side applications.`,
-      title: 'Abhishek Mehandiratta | Web Developer'
+      title: 'Abhishek Mehandiratta | Web Developer',
+      myTech
+    }
+  },
+  async fetch({ store, req, error }) {
+    await store.dispatch('auth/authenticate', req)
+    const { auth } = store.state
+    if (auth.initiateForceLogout) {
+      error({
+        statusCode: 400,
+        errorMessage:
+          auth.errorMessage || 'Something went wrong! Please try later.'
+      })
     }
   },
   head() {
@@ -104,3 +189,140 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.about-me.pad-top-50 {
+  padding-top: 50px;
+}
+
+.banner-right-about-me {
+  max-height: 300px;
+}
+
+.about-me .sep {
+  width: 50%;
+  margin-left: 0px;
+}
+
+.experience {
+  font-size: 20px;
+}
+
+.experience ul {
+  list-style-type: none;
+}
+
+.experience ul li {
+  margin-right: 5px;
+  font-size: 20px;
+}
+
+.experience ul li::before {
+  content: '> ';
+}
+
+.experience ul li a {
+  text-decoration: underline;
+}
+
+@media (max-width: 991px) {
+  .experience ul li {
+    font-size: 18px;
+  }
+}
+
+.tech-stack-title {
+  margin-bottom: 20px;
+  text-align: right;
+}
+
+.banner-right-tech-stack {
+  max-height: 300px;
+}
+
+.tech-stack-contain {
+  margin-top: 50px;
+}
+
+.single-brand-item .d-table-cell {
+  vertical-align: middle;
+}
+
+.single-brand-item img {
+  max-width: 95px;
+  margin: 0 auto;
+  -webkit-transition: all 0.4s ease 0s;
+  -moz-transition: all 0.4s ease 0s;
+  -o-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+}
+
+.single-brand-item {
+  width: 170px;
+  height: 100px;
+  margin-bottom: 30px;
+  -webkit-transition: all 0.4s ease 0s;
+  -moz-transition: all 0.4s ease 0s;
+  -o-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+}
+
+.single-brand-item:hover img {
+  filter: brightness(85%);
+  -o-filter: brightness(85%);
+  -ms-filter: brightness(85%);
+  -moz-filter: brightness(85%);
+  -webkit-filter: brightness(85%);
+}
+
+@media only screen and (max-width: 767px) {
+  .tech-stack {
+    margin-top: 75px;
+  }
+  .single-brand-item {
+    height: 100px;
+    width: 140px;
+  }
+}
+
+@media (max-width: 575px) {
+  .single-brand-item {
+    margin: 0 auto;
+    margin-bottom: 30px;
+  }
+}
+
+@media (min-width: 767px) {
+  .tech-stack.pad-top {
+    padding-top: 50px;
+  }
+}
+
+@media (max-width: 767px) {
+  .tech-stack-title {
+    text-align: left;
+  }
+  .tech-stack-content .row {
+    margin-right: 0 !important;
+    margin-left: -45px;
+  }
+  .single-brand-item img {
+    max-width: 100px;
+  }
+}
+
+@media (max-width: 991px) {
+  .single-brand-item img {
+    max-width: 85px;
+  }
+  .tech-stack-content .row {
+    margin-right: 30px;
+  }
+}
+
+@media (max-width: 878px) {
+  .single-brand-item img {
+    max-width: 75px;
+  }
+}
+</style>
