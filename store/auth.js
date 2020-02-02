@@ -85,7 +85,6 @@ export const actions = {
         credentials: 'include'
       })
       resp = await resp.json()
-      console.log({ resp })
       if (resp.loggedOut) {
         showToast('You have been logged out!', 'success')
         await commit(types.SET_AUTH_LOGOUT)
@@ -96,7 +95,6 @@ export const actions = {
     }
   },
   async createAuthError({ commit }, { errorMessage, initiateForceLogout }) {
-    console.log('inside createAuthError')
     await commit(types.SET_AUTH_ERROR, {
       error: true,
       errorMessage,
