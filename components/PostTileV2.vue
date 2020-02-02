@@ -1,5 +1,5 @@
 <template>
-  <article class="post-tile-v2">
+  <article class="post-tile-v2" data-aos="fade-up">
     <div class="entry-media float-right">
       <nuxt-link :to="`/post/${post._id}`">
         <img :src="post.headerImageURL" alt="post-image" />
@@ -100,12 +100,7 @@ export default {
     },
     sharer() {
       const url = this.shareURL
-      return {
-        facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
-        twitter: `https://twitter.com/share?url=${url}`,
-        linkedIn: `http://www.linkedin.com/shareArticle?mini=true&url=${url}`,
-        whatsApp: `whatsapp://send?text=${url}`
-      }
+      return utils.getShareURL(url)
     },
     shareURL() {
       return `${baseURL}/post/${this.$props.post._id}`

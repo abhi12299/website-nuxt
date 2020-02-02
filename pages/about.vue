@@ -89,7 +89,7 @@ export default {
   data() {
     return {
       metaDesc: `Hi! I am Abhishek. I love developing web apps, especially server side applications.`,
-      title: 'Abhishek Mehandiratta | Web Developer',
+      title: 'About Me - Abhishek Mehandiratta | Web Developer',
       myTech
     }
   },
@@ -106,7 +106,7 @@ export default {
   },
   head() {
     return {
-      title: 'Abhishek Mehandiratta | Web Developer',
+      title: this.title,
       meta: [
         { hid: 'description', name: 'description', content: this.metaDesc },
         {
@@ -115,7 +115,6 @@ export default {
           content: 'Abhishek, Mehandiratta, Developer, Web'
         },
         { hid: 'author', name: 'author', content: 'Abhishek Mehandiratta' },
-        { hid: 'og:site_name', name: 'og:site_name', content: this.title },
         { hid: 'og:title', name: 'og:title', content: this.title },
         { hid: 'og:type', name: 'og:type', content: 'website' },
         {

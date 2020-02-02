@@ -1,7 +1,7 @@
 <template>
   <div>
     <transition name="fade">
-      <IntroHeader v-if="showIntroHeader" />
+      <IntroHeader v-show="showIntroHeader && !initiateForceLogout" />
     </transition>
     <Header />
     <div class="main-body-content">
@@ -34,7 +34,8 @@ export default {
   },
   computed: {
     ...mapState({
-      admin: (state) => state.auth.admin
+      admin: (state) => state.auth.admin,
+      initiateForceLogout: (state) => state.auth.initiateForceLogout
     })
   },
   watch: {
@@ -50,20 +51,7 @@ export default {
 }
 </script>
 
-<style>
-.page-enter-active {
-  transition: opacity 0.25s ease-out;
-}
-
-.page-leave-active {
-  transition: opacity 0.25s ease-in;
-}
-
-.page-enter,
-.page-leave-active {
-  opacity: 0;
-}
-
+<style scoped>
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.25s;

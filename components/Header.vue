@@ -479,9 +479,11 @@ export default {
   color: #777;
 }
 
-.fade-enter-active,
+.fade-enter-active {
+  transition: opacity 0.25s;
+}
 .fade-leave-active {
-  transition: opacity 0.5s;
+  transition: opacity 0.25s;
 }
 .fade-enter,
 .fade-leave-to {

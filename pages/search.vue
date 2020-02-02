@@ -1,26 +1,52 @@
 <template>
   <div class="container">
-    <LatestPosts />
+    <SearchResults :page="page" :perPage="perPage" />
+    <client-only>
+      <Pagination
+        v-if="count"
+        :pageNo="page"
+        :perPage="perPage"
+        :totalItems="count"
+      />
+    </client-only>
   </div>
 </template>
 
 <script>
-import cookie from 'js-cookie'
-import { showToast } from '../utils/toasts'
-import LatestPosts from '~/components/LatestPosts'
+import { mapState } from 'vuex'
+import SearchResults from '../components/SearchResults'
+import Pagination from '../components/Pagination'
 
 export default {
   layout: 'page',
   components: {
-    LatestPosts
+    SearchResults,
+    Pagination
   },
   data() {
     return {
-      metaDesc: `Hi! I am Abhishek. I love developing web apps, especially server side applications.`,
-      title: 'Abhishek Mehandiratta | Web Developer'
+      perPage: 10
     }
   },
-  async fetch({ store, req, error }) {
+  watchQuery: ['q', 'sortBy', 'sortOrder', 'published', 'page'],
+  computed: {
+    title() {
+      return `${decodeURI(
+        this.query
+      )} - Search Results - Abhishek Mehandiratta | Web Developer`
+    },
+    metaDesc() {
+      return `count Results For ${decodeURI(
+        this.query
+      )} - Abhishek Mehandiratta | Web Developer`
+    },
+    ...mapState({
+      query: (state) => state.search.searchQuery,
+      count: (state) => state.search.count,
+      page: (state) => state.search.page
+    })
+  },
+  async fetch({ store, query, req, error }) {
     await store.dispatch('auth/authenticate', req)
     const { auth } = store.state
     if (auth.initiateForceLogout) {
@@ -30,26 +56,18 @@ export default {
           auth.errorMessage || 'Something went wrong! Please try later.'
       })
     } else {
-      await store.dispatch('latestPosts/getLatestPosts')
-    }
-  },
-  mounted() {
-    if (cookie.get('notAdmin')) {
-      cookie.remove('notAdmin', {
-        expires: 1
-      })
-      showToast('You are not a registered admin!', 'error')
+      await store.dispatch('search/search', { query, req })
     }
   },
   head() {
     return {
-      title: 'Abhishek Mehandiratta | Web Developer',
+      title: this.title,
       meta: [
         { hid: 'description', name: 'description', content: this.metaDesc },
         {
           hid: 'keywords',
           name: 'keywords',
-          content: 'Abhishek, Mehandiratta, Developer, Web'
+          content: 'Abhishek, Mehandiratta, Developer, Web, Search'
         },
         { hid: 'author', name: 'author', content: 'Abhishek Mehandiratta' },
         { hid: 'og:title', name: 'og:title', content: this.title },

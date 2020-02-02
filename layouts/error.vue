@@ -9,13 +9,12 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   props: {
-    statusCode: {
-      type: Number,
-      default: 500
-    },
-    errorMessage: {
-      type: String,
-      default: 'Something went wrong!'
+    error: {
+      type: Object,
+      default: () => ({
+        statusCode: 500,
+        errorMessage: 'Something went wrong!'
+      })
     }
   },
   computed: {
@@ -24,6 +23,7 @@ export default {
     })
   },
   mounted() {
+    console.log(this.$props)
     if (this.initiateForceLogout) {
       this.logout().then(() => {
         this.$router.push('/')

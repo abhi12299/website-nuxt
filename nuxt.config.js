@@ -6,30 +6,33 @@ module.exports = {
    ** Headers of the page
    */
   head: {
-    title: process.env.npm_package_name || '',
+    title: 'Abhishek Mehandiratta | Web Developer',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       {
-        hid: 'description',
-        name: 'description',
-        content: process.env.npm_package_description || ''
+        hid: 'og:site_name',
+        name: 'og:site_name',
+        content: 'Abhishek Mehandiratta | Web Developer'
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon/favicon.ico' }]
   },
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#fff' },
+  loading: { color: '#000' },
   /*
    ** Global CSS
    */
-  css: ['~/css/index.css'],
+  css: ['~/css/index.css', 'aos/dist/aos.css'],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [{ src: '~/plugins/toastr-init', mode: 'client' }],
+  plugins: [
+    { src: '~/plugins/toastr-init', mode: 'client' },
+    { src: '~/plugins/aos', mode: 'client' }
+  ],
   /*
    ** Nuxt.js dev-modules
    */

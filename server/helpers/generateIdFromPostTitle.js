@@ -4,7 +4,7 @@ module.exports = (title) => {
     .trim()
     .toLowerCase()
     .replace(/\s/g, '-')
-    .replace(/[^\w\-]/g, '')
+    .replace(/[^\w-]/g, '')
     .replace(/-{2,}/g, '-') // replace consecutive dashes with single dash
     .substr(0, 200)
 }

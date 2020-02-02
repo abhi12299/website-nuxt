@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100%">
+  <div>
     <svg
       :style="{ maxWidth: width, maxHeight: height, width, height }"
       xmlns="http://www.w3.org/2000/svg"

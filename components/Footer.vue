@@ -387,7 +387,7 @@ export default {
   }
 
   .footer-wrapper .logo img {
-    max-width: 25%;
+    max-width: 20%;
   }
 }
 </style>

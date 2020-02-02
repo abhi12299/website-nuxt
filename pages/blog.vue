@@ -1,26 +1,46 @@
 <template>
   <div class="container">
-    <LatestPosts />
+    <AllBlogs />
+    <div style="margin-top: 20px" />
+    <client-only>
+      <Pagination
+        v-if="count"
+        :pageNo="page"
+        :perPage="perPage"
+        :totalItems="count"
+      />
+    </client-only>
   </div>
 </template>
 
 <script>
-import cookie from 'js-cookie'
-import { showToast } from '../utils/toasts'
-import LatestPosts from '~/components/LatestPosts'
+import { mapState } from 'vuex'
+import Pagination from '~/components/Pagination'
+import AllBlogs from '~/components/AllBlogs'
 
 export default {
   layout: 'page',
   components: {
-    LatestPosts
+    AllBlogs,
+    Pagination
   },
+  watchQuery: ['page'],
   data() {
     return {
-      metaDesc: `Hi! I am Abhishek. I love developing web apps, especially server side applications.`,
-      title: 'Abhishek Mehandiratta | Web Developer'
+      metaDesc: `Check out these interesting blogs written by me, ranging from basics of javascript and other languages to advanced concepts.`,
+      perPage: 10
     }
   },
-  async fetch({ store, req, error }) {
+  computed: {
+    title() {
+      return `All Blog Posts - Page ${this.page} - Abhishek Mehandiratta | Web Developer`
+    },
+    ...mapState({
+      page: (state) => state.posts.page,
+      count: (state) => state.posts.count
+    })
+  },
+  async fetch({ store, req, query, error }) {
     await store.dispatch('auth/authenticate', req)
     const { auth } = store.state
     if (auth.initiateForceLogout) {
@@ -30,26 +50,25 @@ export default {
           auth.errorMessage || 'Something went wrong! Please try later.'
       })
     } else {
-      await store.dispatch('latestPosts/getLatestPosts')
+      await store.dispatch('posts/getAllBlogPosts', { query, req })
     }
   },
-  mounted() {
-    if (cookie.get('notAdmin')) {
-      cookie.remove('notAdmin', {
-        expires: 1
-      })
-      showToast('You are not a registered admin!', 'error')
-    }
+  key: (to) => to.fullPath,
+  transition(to, from) {
+    if (!from) return 'slide-left'
+    const { page: toPage = 1 } = to.query
+    const { page: fromPage = 1 } = from.query
+    return +toPage < +fromPage ? 'slide-right' : 'slide-left'
   },
   head() {
     return {
-      title: 'Abhishek Mehandiratta | Web Developer',
+      title: this.title,
       meta: [
         { hid: 'description', name: 'description', content: this.metaDesc },
         {
           hid: 'keywords',
           name: 'keywords',
-          content: 'Abhishek, Mehandiratta, Developer, Web'
+          content: 'Abhishek, Mehandiratta, Developer, Web, Blog'
         },
         { hid: 'author', name: 'author', content: 'Abhishek Mehandiratta' },
         { hid: 'og:title', name: 'og:title', content: this.title },
@@ -64,7 +83,11 @@ export default {
           name: 'og:image',
           content: 'https://iabhishek.dev/static/logo.png'
         },
-        { hid: 'og:url', name: 'og:url', content: 'https://iabhishek.dev' },
+        {
+          hid: 'og:url',
+          name: 'og:url',
+          content: 'https://iabhishek.dev/blog'
+        },
         {
           hid: 'twitter:card',
           name: 'twitter:card',
@@ -117,7 +140,7 @@ export default {
               '@type': 'WebPage',
               '@id': 'https://iabhishek.dev'
             },
-            description: 'Web Developer'
+            description: this.metaDesc
           }
         }
       ]

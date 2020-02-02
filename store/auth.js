@@ -38,18 +38,18 @@ export const mutations = {
 
 export const actions = {
   async authenticate({ commit }, req) {
-    await commit(types.SET_AUTH_LOADING, true)
+    // do nothing if called on client side
+    // or when there is no token
+    if (!process.server || !('token' in req.cookies)) return
+
     const fetchOpts = {
-      credentials: 'include'
-    }
-    if (process.server) {
-      const { cookies } = req
-      if ('token' in cookies) {
-        fetchOpts.headers = {
-          authorization: `Bearer ${req.cookies.token}`
-        }
+      credentials: 'include',
+      headers: {
+        authorization: `Bearer ${req.cookies.token}`
       }
     }
+
+    await commit(types.SET_AUTH_LOADING, true)
     try {
       const resp = await fetch(`${baseURL}/auth/verify`, fetchOpts)
       const data = await resp.json()
@@ -94,5 +94,13 @@ export const actions = {
       console.error(error)
       await commit(types.SET_AUTH_LOGOUT)
     }
+  },
+  async createAuthError({ commit }, { errorMessage, initiateForceLogout }) {
+    console.log('inside createAuthError')
+    await commit(types.SET_AUTH_ERROR, {
+      error: true,
+      errorMessage,
+      initiateForceLogout
+    })
   }
 }

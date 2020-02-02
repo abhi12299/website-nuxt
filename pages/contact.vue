@@ -84,6 +84,17 @@ export default {
       title: 'Contact Me - Abhishek Mehandiratta | Web Developer'
     }
   },
+  async fetch({ store, req, error }) {
+    await store.dispatch('auth/authenticate', req)
+    const { auth } = store.state
+    if (auth.initiateForceLogout) {
+      error({
+        statusCode: 400,
+        errorMessage:
+          auth.errorMessage || 'Something went wrong! Please try later.'
+      })
+    }
+  },
   head() {
     return {
       title: this.title,
@@ -95,11 +106,6 @@ export default {
           content: 'Abhishek, Mehandiratta, Developer, Contact, Web'
         },
         { hid: 'author', name: 'author', content: 'Abhishek Mehandiratta' },
-        {
-          hid: 'og:site_name',
-          name: 'og:site_name',
-          content: 'Abhishek Mehandiratta | Web Developer'
-        },
         { hid: 'og:title', name: 'og:title', content: this.title },
         { hid: 'og:type', name: 'og:type', content: 'website' },
         {
