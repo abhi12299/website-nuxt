@@ -47,17 +47,7 @@ export default {
     })
   },
   async fetch({ store, query, req, error }) {
-    await store.dispatch('auth/authenticate', req)
-    const { auth } = store.state
-    if (auth.initiateForceLogout) {
-      error({
-        statusCode: 400,
-        errorMessage:
-          auth.errorMessage || 'Something went wrong! Please try later.'
-      })
-    } else {
-      await store.dispatch('search/search', { query, req })
-    }
+    await store.dispatch('search/search', { query, req })
   },
   head() {
     return {

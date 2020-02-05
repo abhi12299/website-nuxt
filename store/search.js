@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import fetch from 'isomorphic-unfetch'
 import types from '../constants/types'
 import baseURL from '../server/constants/apiURL'
 import { showToast } from '~/utils/toasts'
@@ -201,9 +202,10 @@ export const actions = {
       }
       resp = await resp.json()
       if (resp.error) {
-        console.error(resp.error)
+        console.error(resp)
         showToast(
-          'There was some error changing the publish status of the post!',
+          resp.msg ||
+            'There was some error changing the publish status of the post!',
           'error'
         )
       } else {

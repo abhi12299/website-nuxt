@@ -38,9 +38,9 @@ dashboardRouter.post('/savePost', async (req, res) => {
 
   const {
     title,
-    headerImageURL,
-    metaDescription,
-    metaKeywords,
+    headerImageURL = '',
+    metaDescription = '',
+    metaKeywords = '',
     postedDate = Date.now(),
     body,
     published = 0
@@ -51,6 +51,12 @@ dashboardRouter.post('/savePost', async (req, res) => {
 
   const attachedMedia = findAttachedMedia(headerImageURL, body)
 
+  const isPostPublishable =
+    title.length > 0 &&
+    headerImageURL.length > 0 &&
+    metaDescription.length > 0 &&
+    metaKeywords.length > 0
+
   const savedPost = await Post.savePost({
     _id,
     title,
@@ -60,7 +66,8 @@ dashboardRouter.post('/savePost', async (req, res) => {
     postedDate,
     body,
     published,
-    media: attachedMedia
+    media: attachedMedia,
+    isPostPublishable
   })
   if (savedPost) {
     let body = savedPost.body
@@ -189,9 +196,19 @@ dashboardRouter.post('/setPublished', async (req, res) => {
   }
   const { _id, published } = req.body
   try {
-    const existingPost = await Post.findOne({ _id }, 'published')
+    const existingPost = await Post.findOne(
+      { _id },
+      'published isPostPublishable'
+    )
     if (existingPost && existingPost.published === published) {
       return res.json({ error: false })
+    }
+
+    if (published && !existingPost.isPostPublishable) {
+      return res.status(400).json({
+        error: true,
+        msg: 'The post is not publishable! Please complete its details'
+      })
     }
 
     const post = await Post.setPublished(_id, published)
@@ -242,7 +259,7 @@ dashboardRouter.patch('/editPost', async (req, res) => {
   const oldPost = await Post.findOne({ _id })
   if (!oldPost) {
     return res
-      .status(500)
+      .status(400)
       .json({ error: true, msg: 'Post not found with that id' })
   }
 
@@ -250,6 +267,19 @@ dashboardRouter.patch('/editPost', async (req, res) => {
   const newAttachedMedia = findAttachedMedia(headerImageURL, body)
   const newPostId = generateIdFromPostTitle(title)
 
+  const isPostPublishable =
+    title.length > 0 &&
+    headerImageURL.length > 0 &&
+    metaDescription.length > 0 &&
+    metaKeywords.length > 0
+
+  if (!isPostPublishable && oldPost.published) {
+    return res.status(400).json({
+      error: true,
+      msg:
+        'You removed some fields in the updated post, which was already published. Unpublish it first and then do the changes!'
+    })
+  }
   // create a new post, deleting old one, only if forced to do so
   if (newPostId !== oldPost._id && !keepOldId) {
     // delete old post
@@ -267,8 +297,9 @@ dashboardRouter.patch('/editPost', async (req, res) => {
         metaDescription,
         postedDate: oldPost.postedDate,
         body,
-        published: oldPost.published,
-        media: newAttachedMedia
+        published: isPostPublishable ? oldPost.published : 0,
+        media: newAttachedMedia,
+        isPostPublishable
       })
 
       let newBody = body.replace(/\s/gi, ' ').replace(/<code.*?<\/code>/gi, '')
@@ -294,7 +325,8 @@ dashboardRouter.patch('/editPost', async (req, res) => {
       metaDescription,
       metaKeywords,
       body,
-      media: newAttachedMedia
+      media: newAttachedMedia,
+      isPostPublishable
     })
     try {
       let newBody = newPost.body

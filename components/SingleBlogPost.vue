@@ -111,24 +111,34 @@ export default {
   mounted() {
     const { enableComments } = this.$props
     if (!enableComments) return
-    const widgetpackScript = document.createElement('script')
-    widgetpackScript.id = 'wpac_init_script'
-    widgetpackScript.innerHTML = `
-      window.wpac_init = window.wpac_init || [];
-      window.wpac_init.push({ widget: 'Comment', id: '${keys.WIDGETPACK_PLUGIN_ID}' });
-      (function() {
-        var mc = document.createElement('script');
-        mc.type = 'text/javascript';
-        mc.async = true;
-        mc.src = 'https://embed.widgetpack.com/widget.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(mc, s.nextSibling);
-      })()
-    `
-    document.body.appendChild(widgetpackScript)
+
+    if (document.querySelector('#wpac_init_script')) {
+      window.wpac_init = window.wpac_init || []
+      window.wpac_init.push({
+        widget: 'Comment',
+        id: `${keys.WIDGETPACK_PLUGIN_ID}`
+      })
+      window.WPac && window.WPac.init(window.wpac_init)
+    } else {
+      const widgetpackScript = document.createElement('script')
+      widgetpackScript.id = 'wpac_init_script'
+      widgetpackScript.innerHTML = `
+        window.wpac_init = window.wpac_init || [];
+        window.wpac_init.push({ widget: 'Comment', id: '${keys.WIDGETPACK_PLUGIN_ID}' });
+        (function() {
+          var mc = document.createElement('script');
+          mc.type = 'text/javascript';
+          mc.async = true;
+          mc.src = 'https://embed.widgetpack.com/widget.js';
+          var s = document.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(mc, s.nextSibling);
+        })()
+      `
+      document.body.appendChild(widgetpackScript)
+    }
   },
   beforeDestroy() {
-    document.body.removeChild(document.querySelector('#wpac_init_script'))
+    delete window.wpac_init
   },
   methods: {
     getFormattedDate() {

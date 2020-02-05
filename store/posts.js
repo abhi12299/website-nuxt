@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import fetch from 'isomorphic-unfetch'
 import types from '../constants/types'
 import baseURL from '../server/constants/apiURL'
 import { showToast } from '~/utils/toasts'
@@ -149,6 +150,75 @@ export const actions = {
         'There was some error changing the publish status of the post!',
         'error'
       )
+    }
+  },
+  async fetchDashboardPosts(
+    { commit, state, dispatch },
+    { req, query, perPage = 10 }
+  ) {
+    const { sortBy = 'postedDate', sortOrder = '-1', published = 'all' } = query
+    let { page } = query
+    page = page ? (isNaN(parseInt(page)) ? 1 : parseInt(page)) : 1
+    page = page > 0 ? page : 1
+
+    if (state.data && state.page === page && !state.error) {
+      return
+    }
+    const fetchOpts = {
+      method: 'GET',
+      credentials: 'include'
+    }
+    if (req && 'token' in req.cookies) {
+      fetchOpts.headers = {
+        authorization: `Bearer ${req.cookies.token}`
+      }
+    }
+    const filters = { sortBy, sortOrder, published }
+    let appendToQuery = false
+    let url = `${baseURL}/api/dashboard/getPosts`
+    if (perPage) {
+      appendToQuery = true
+      url += `?limit=${perPage}`
+    }
+    if (page) {
+      url += `${appendToQuery ? '&' : '?'}skip=${(page - 1) * perPage}`
+      appendToQuery = true
+    }
+    if (filters) {
+      for (const [key, val] of Object.entries(filters)) {
+        url += `${appendToQuery ? '&' : '?'}${key}=${val}`
+        appendToQuery = true
+      }
+    }
+
+    try {
+      let resp = await fetch(url, fetchOpts)
+      if (resp.status === 401) {
+        // unauthorized!
+        await dispatch(
+          'auth/createAuthError',
+          {
+            errorMessage: 'Invalid user token! You will be logged out!',
+            initiateForceLogout: true
+          },
+          { root: true }
+        )
+        return
+      }
+      resp = await resp.json()
+      if (resp.error) {
+        console.error(resp)
+        await commit(types.SET_POSTS_ERROR, resp.msg || 'Something went wrong!')
+      } else {
+        await commit(types.SET_POSTS, {
+          data: resp.data,
+          count: resp.count,
+          page
+        })
+      }
+    } catch (error) {
+      console.error(error)
+      await commit(types.SET_POSTS_ERROR, error.msg || 'Something went wrong!')
     }
   }
 }

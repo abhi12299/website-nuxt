@@ -80,7 +80,10 @@ authRouter.get('/verify', async (req, res) => {
     return res.json({ valid: true })
   } else {
     // send email to admins
-    emailHelperFunction(error.code, error.data, req)
+    if (process.env.NODE_ENV === 'production') {
+      emailHelperFunction(error.code, error.data, req)
+    }
+
     return res.json({ valid: false, emptyToken: false })
   }
 })

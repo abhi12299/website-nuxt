@@ -82,6 +82,7 @@ export default {
     }
   },
   mounted() {
+    this.links = this.navLinks()
     this.mainBodyWrapper = document.querySelector('.main-body-content')
     this.isMobileView = window.innerWidth <= 991
     this.initialHeaderOffset = this.$refs.headerComponent.offsetTop

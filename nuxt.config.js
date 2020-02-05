@@ -21,7 +21,7 @@ module.exports = {
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#000' },
+  loading: { color: 'black', height: '5px' },
   /*
    ** Global CSS
    */
@@ -40,6 +40,9 @@ module.exports = {
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module'
   ],
+  router: {
+    middleware: 'auth'
+  },
   /*
    ** Nuxt.js modules
    */

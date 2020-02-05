@@ -41,17 +41,7 @@ export default {
     })
   },
   async fetch({ store, req, query, error }) {
-    await store.dispatch('auth/authenticate', req)
-    const { auth } = store.state
-    if (auth.initiateForceLogout) {
-      error({
-        statusCode: 400,
-        errorMessage:
-          auth.errorMessage || 'Something went wrong! Please try later.'
-      })
-    } else {
-      await store.dispatch('posts/getAllBlogPosts', { query, req })
-    }
+    await store.dispatch('posts/getAllBlogPosts', { query, req })
   },
   key: (to) => to.fullPath,
   transition(to, from) {

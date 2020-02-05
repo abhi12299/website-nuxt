@@ -93,17 +93,6 @@ export default {
       myTech
     }
   },
-  async fetch({ store, req, error }) {
-    await store.dispatch('auth/authenticate', req)
-    const { auth } = store.state
-    if (auth.initiateForceLogout) {
-      error({
-        statusCode: 400,
-        errorMessage:
-          auth.errorMessage || 'Something went wrong! Please try later.'
-      })
-    }
-  },
   head() {
     return {
       title: this.title,

@@ -11,16 +11,12 @@ function validatePost({
 }) {
   const schema = Joi.object({
     title: Joi.string().required(),
-    headerImageURL: Joi.string().required(),
-    metaDescription: Joi.string().required(),
-    postedDate: Joi.number().required(),
+    headerImageURL: Joi.string().allow(''),
+    metaDescription: Joi.string().allow(''),
+    postedDate: Joi.number(),
     body: Joi.string().required(),
-    published: Joi.number()
-      .valid(0, 1)
-      .required(),
-    metaKeywords: Joi.array()
-      .items(Joi.string())
-      .required()
+    published: Joi.number().valid(0, 1),
+    metaKeywords: Joi.array().items(Joi.string().allow(''))
   })
 
   const { error } = schema.validate({
@@ -103,10 +99,10 @@ const validateEditPost = ({
 }) => {
   const schema = Joi.object({
     title: Joi.string(),
-    headerImageURL: Joi.string(),
-    metaDescription: Joi.string(),
+    headerImageURL: Joi.string().allow(''),
+    metaDescription: Joi.string().allow(''),
     body: Joi.string(),
-    metaKeywords: Joi.array().items(Joi.string()),
+    metaKeywords: Joi.array().items(Joi.string().allow('')),
     keepOldId: Joi.bool()
   })
   const { error } = schema.validate({

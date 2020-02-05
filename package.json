@@ -15,6 +15,7 @@
     "@hapi/joi": "^17.1.0",
     "@nuxtjs/dotenv": "^1.4.0",
     "@nuxtjs/pwa": "^3.0.0-0",
+    "@tinymce/tinymce-vue": "^3.1.0",
     "aos": "^2.3.4",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
@@ -45,6 +46,7 @@
     "striptags": "^3.1.1",
     "toastr": "^2.1.4",
     "uuid": "^3.4.0",
+    "vue-cropperjs": "^4.0.1",
     "winston": "^3.2.1"
   },
   "devDependencies": {

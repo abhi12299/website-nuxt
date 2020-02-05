@@ -23,23 +23,13 @@ export default {
     }
   },
   async fetch({ store, req, params, error }) {
-    await store.dispatch('auth/authenticate', req)
-    const { auth } = store.state
-    if (auth.initiateForceLogout) {
+    await store.dispatch('singlePost/getSinglePost', { id: params.id, req })
+    const { singlePost } = store.state
+    if (singlePost.error || !singlePost.data) {
       error({
-        statusCode: 400,
-        errorMessage:
-          auth.errorMessage || 'Something went wrong! Please try later.'
+        statusCode: 404,
+        errorMessage: 'Post could not be found.'
       })
-    } else {
-      await store.dispatch('singlePost/getSinglePost', { id: params.id, req })
-      const { singlePost } = store.state
-      if (singlePost.error || !singlePost.data) {
-        error({
-          statusCode: 404,
-          errorMessage: 'Post could not be found.'
-        })
-      }
     }
   },
   mounted() {

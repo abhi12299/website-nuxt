@@ -14,16 +14,16 @@ const PostSchema = new Schema(
       unique: true
     },
     headerImageURL: {
-      type: String,
-      required: true
+      type: String
+      // required: true
     },
     metaDescription: {
-      type: String,
-      required: true
+      type: String
+      // required: true
     },
     metaKeywords: {
-      type: [String],
-      required: true
+      type: [String]
+      // required: true
     },
     postedDate: {
       type: Number,
@@ -38,6 +38,10 @@ const PostSchema = new Schema(
     published: {
       type: Number,
       default: 0
+    },
+    isPostPublishable: {
+      type: Boolean,
+      default: false
     },
     // media attached to the post hosted on the same server
     // includes images and videos
@@ -64,7 +68,7 @@ PostSchema.statics = {
   async publishPost(postId) {
     try {
       return await this.findOneAndUpdate(
-        { _id: postId },
+        { _id: postId, isPostPublishable: true },
         {
           $set: {
             published: 1
@@ -150,7 +154,8 @@ PostSchema.statics = {
             published: 1,
             postedDate: 1,
             metaKeywords: 1,
-            metaDescription: 1
+            metaDescription: 1,
+            isPostPublishable: 1
           }
         }
       ]
@@ -164,7 +169,7 @@ PostSchema.statics = {
   },
   async getPost({ id, admin }) {
     try {
-      const projectQuery = `_id title headerImageURL metaDescription metaKeywords postedDate body published`
+      const projectQuery = `_id title headerImageURL metaDescription metaKeywords postedDate body published isPostPublishable`
 
       const findQuery = {
         published: 1,

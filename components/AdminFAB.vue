@@ -8,7 +8,7 @@
         </span>
       </div>
     </div>
-    <div @click="logout">
+    <div @click="handleLogout">
       <div class="button-4 links adminLogout">
         <div class="eff-4" />
         <span>
@@ -41,6 +41,11 @@ export default {
     ...mapActions({
       logout: 'auth/logout'
     }),
+    handleLogout() {
+      this.logout().then(() => {
+        this.$router.push('/')
+      })
+    },
     goToDashboard() {
       this.$router.push('/dashboard')
     },
