@@ -10,7 +10,8 @@ export const state = () => ({
   errorMessage: null,
   data: null,
   count: 0,
-  page: null
+  page: null,
+  pathname: '' // this is used in 2 routes, hence for distinction
 })
 
 export const mutations = {
@@ -23,6 +24,7 @@ export const mutations = {
     state.data = payload.data
     state.count = payload.count
     state.page = payload.page
+    state.pathname = payload.pathname
   },
   [types.SET_POSTS_ERROR](state, payload) {
     state.loading = false
@@ -49,7 +51,12 @@ export const actions = {
     page = page ? (isNaN(parseInt(page)) ? 1 : parseInt(page)) : 1
     page = page > 0 ? page : 1
 
-    if (state.data && state.page === page && !state.error) {
+    if (
+      state.data &&
+      state.page === page &&
+      !state.error &&
+      state.pathname === '/blog'
+    ) {
       return
     }
 
@@ -97,7 +104,8 @@ export const actions = {
         await commit(types.SET_POSTS, {
           data: resp.data,
           count: resp.count,
-          page
+          page,
+          pathname: '/blog'
         })
       }
     } catch (error) {
@@ -133,9 +141,10 @@ export const actions = {
       }
       resp = await resp.json()
       if (resp.error) {
-        console.error(resp.error)
+        console.error(resp)
         showToast(
-          'There was some error changing the publish status of the post!',
+          resp.msg ||
+            'There was some error changing the publish status of the post!',
           'error'
         )
       } else {
@@ -161,9 +170,6 @@ export const actions = {
     page = page ? (isNaN(parseInt(page)) ? 1 : parseInt(page)) : 1
     page = page > 0 ? page : 1
 
-    if (state.data && state.page === page && !state.error) {
-      return
-    }
     const fetchOpts = {
       method: 'GET',
       credentials: 'include'
@@ -213,7 +219,8 @@ export const actions = {
         await commit(types.SET_POSTS, {
           data: resp.data,
           count: resp.count,
-          page
+          page,
+          pathname: '/dashboard/posts'
         })
       }
     } catch (error) {

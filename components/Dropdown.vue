@@ -53,6 +53,11 @@ export default {
       placeholderText: 'Please select an item'
     }
   },
+  watch: {
+    selected(next, prev) {
+      this.selectedOption = next
+    }
+  },
   mounted() {
     this.selectedOption = this.selected
     if (this.placeholder) {
