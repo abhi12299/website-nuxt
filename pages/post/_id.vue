@@ -44,15 +44,16 @@ export default {
   },
   methods: {
     appendScripts(highlightTimeout) {
+      console.log(
+        'appending',
+        document.querySelector('script[src$="prism.js"]')
+      )
       if (!document.querySelector('script[src$="prism.js"]')) {
         const prismScript = document.createElement('script')
-        prismScript.async = true
         prismScript.src = '../prism/prism.js'
         prismScript.setAttribute('data-manual', true)
 
         const prismInit = document.createElement('script')
-        prismInit.async = true
-        prismInit.defer = true
         prismInit.innerHTML = `
           function highlight() {
             console.log('starting to highlight')
@@ -72,7 +73,7 @@ export default {
         prismCss.href = '../prism/prism.css'
         document.body.appendChild(prismScript)
         document.body.appendChild(prismCss)
-        prismScript.onload = () => document.body.appendChild(prismInit)
+        document.body.appendChild(prismInit)
       }
 
       setTimeout(window.highlight, highlightTimeout)
