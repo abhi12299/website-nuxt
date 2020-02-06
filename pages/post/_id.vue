@@ -52,9 +52,12 @@ export default {
 
         const prismInit = document.createElement('script')
         prismInit.async = true
+        prismInit.defer = true
         prismInit.innerHTML = `
           function highlight() {
             console.log('starting to highlight')
+            console.log("'Prism' in window", 'Prism' in window)
+            console.log("'PRISM_CODE_PARSED' in window", 'PRISM_CODE_PARSED' in window)
             if ('Prism' in window && !('PRISM_CODE_PARSED' in window)) {
               Prism.highlightAll(false, () => {
                 window.PRISM_CODE_PARSED = true;
