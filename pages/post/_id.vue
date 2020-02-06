@@ -55,6 +55,7 @@ export default {
             if ('Prism' in window && !('PRISM_CODE_PARSED' in window)) {
               Prism.highlightAll(false, () => {
                 window.PRISM_CODE_PARSED = true;
+                console.log('done parsing')
               });
             }
           }
