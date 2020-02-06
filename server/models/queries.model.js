@@ -28,6 +28,13 @@ const QueriesSchema = new Schema(
   { timestamps: true }
 )
 
+QueriesSchema.statics = {
+  async getQueries() {
+    const count = await this.countDocuments({})
+    return count
+  }
+}
+
 const Queries = mongoose.model('queries', QueriesSchema)
 
 module.exports = Queries

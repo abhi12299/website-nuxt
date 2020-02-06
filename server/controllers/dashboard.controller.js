@@ -5,11 +5,11 @@ const multer = require('multer')
 
 const Media = require('../models/media.model')
 const Post = require('../models/post.model')
+const Queries = require('../models/queries.model')
 const createIndex = require('../elasticClient/createIndex')
 const bulkInsertPosts = require('../elasticClient/bulkInsertPosts')
 const elasticSearchHelper = require('../elasticClient/helper')
 const logger = require('../logger')
-
 const {
   validatePost,
   validateSetPublished,
@@ -458,6 +458,13 @@ dashboardRouter.delete('/deleteMedia', async (req, res) => {
     logger.error('File not found in file system', error)
     res.json({ error: true, msg: 'Something went wrong!' })
   }
+})
+
+dashboardRouter.get('/contactQueries', async (req, res) => {
+  res.json({
+    error: false,
+    data: await Queries.getQueries()
+  })
 })
 
 module.exports = dashboardRouter
