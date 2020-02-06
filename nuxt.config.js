@@ -16,7 +16,7 @@ module.exports = {
         content: 'Abhishek Mehandiratta | Web Developer'
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon/favicon.ico' }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   /*
    ** Customize the progress-bar color
@@ -80,5 +80,57 @@ module.exports = {
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
+  },
+  pwa: {
+    workbox: {
+      cachingExtensions: '~/plugins/sw-cache.js'
+    }
+  },
+  manifest: {
+    name: 'Abhishek Mehandiratta | Web Developer',
+    short_name: 'AM | Web Developer',
+    lang: 'en',
+    display: 'standalone',
+    start_url: 'https://iabhishek.dev',
+    background_color: '#F0F0F0',
+    theme_color: '#FFFFFF',
+    icons: [
+      {
+        src: '/android-icon-36x36.png',
+        sizes: '36x36',
+        type: 'image/png',
+        density: '0.75'
+      },
+      {
+        src: '/android-icon-48x48.png',
+        sizes: '48x48',
+        type: 'image/png',
+        density: '1.0'
+      },
+      {
+        src: '/android-icon-72x72.png',
+        sizes: '72x72',
+        type: 'image/png',
+        density: '1.5'
+      },
+      {
+        src: '/android-icon-96x96.png',
+        sizes: '96x96',
+        type: 'image/png',
+        density: '2.0'
+      },
+      {
+        src: '/android-icon-144x144.png',
+        sizes: '144x144',
+        type: 'image/png',
+        density: '3.0'
+      },
+      {
+        src: '/android-icon-192x192.png',
+        sizes: '192x192',
+        type: 'image/png',
+        density: '4.0'
+      }
+    ]
   }
 }
