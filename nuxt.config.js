@@ -16,7 +16,8 @@ module.exports = {
         content: 'Abhishek Mehandiratta | Web Developer'
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    script: [{ src: '/removePreloader.js' }]
   },
   /*
    ** Customize the progress-bar color

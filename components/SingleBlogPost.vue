@@ -57,6 +57,11 @@
                   Whatsapp
                 </a>
               </li>
+              <li v-if="!nativeShare" class="list-inline-item">
+                <a @click="handleNativeShare" class="text-other">
+                  Other
+                </a>
+              </li>
             </ul>
           </div>
           <div class="entry-share-div">
@@ -99,6 +104,11 @@ export default {
       type: Boolean
     }
   },
+  data() {
+    return {
+      nativeShare: false
+    }
+  },
   computed: {
     sharer() {
       const url = this.shareURL
@@ -109,6 +119,7 @@ export default {
     }
   },
   mounted() {
+    this.nativeShare = !!navigator.share
     const { enableComments } = this.$props
     if (!enableComments) return
 
@@ -144,6 +155,17 @@ export default {
     getFormattedDate() {
       const d = utils.getDateParts(this.$props.blogPost.postedDate)
       return `${d.date} ${d.month} ${d.year}`
+    },
+    handleNativeShare() {
+      navigator
+        .share({
+          title: document.title,
+          text: this.$props.blogPost.title,
+          url: this.shareURL
+        })
+        .then(() => {
+          // TODO: dispatch ga share event
+        })
     }
   }
 }
@@ -358,6 +380,11 @@ export default {
 
 .single-post .social-text li a.text-whatsapp {
   color: #4fce5d !important;
+}
+
+.single-post .social-text li a.text-other {
+  color: #0b0c0b !important;
+  cursor: pointer;
 }
 
 .single-post .comments-section {

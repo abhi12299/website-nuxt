@@ -1,6 +1,6 @@
 <template>
   <div>
-    <transition name="fade">
+    <transition name="fade-search">
       <Search v-on:closeSearch="toggleSearch" v-if="showSearch" />
     </transition>
     <section ref="headerComponent" class="header-wrapper">
@@ -91,6 +91,10 @@ export default {
     window.addEventListener('scroll', this.handleScroll)
 
     this.handleScroll()
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleWindowResize)
+    window.removeEventListener('scroll', this.handleScroll)
   },
   methods: {
     navLinks() {
@@ -480,14 +484,14 @@ export default {
   color: #777;
 }
 
-.fade-enter-active {
-  transition: opacity 0.25s;
+.fade-search-enter-active {
+  transition: opacity 0.35s;
 }
-.fade-leave-active {
-  transition: opacity 0.25s;
+.fade-search-leave-active {
+  transition: opacity 0.35s;
 }
-.fade-enter,
-.fade-leave-to {
+.fade-search-enter,
+.fade-search-leave-to {
   opacity: 0;
 }
 

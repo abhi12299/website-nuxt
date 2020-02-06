@@ -91,6 +91,10 @@ export default {
       }
     }
   },
+  beforeDestroy() {
+    window.removeEventListener('click', this.outsideClickCloseModal)
+    window.removeEventListener('keydown', this.escapeKeyCloseModal)
+  },
   methods: {
     escapeKeyCloseModal(e) {
       if (e.keyCode === 27) {

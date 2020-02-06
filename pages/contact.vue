@@ -263,8 +263,8 @@ export default {
   border-color: red;
 }
 .form-field {
-  border: 1px solid #eaeaee;
-  padding: 0 24px 24px;
+  border: 1px solid #505050;
+  padding: 0 24px 14px;
   margin: 44px 0;
   transition: 200ms border-color ease-in-out;
 }
@@ -291,7 +291,7 @@ export default {
   display: block;
   width: 100%;
   border: none;
-  margin-top: 8px;
+  /* margin-top: 8px; */
   font-family: 'Poppins', sans-serif;
   font-size: 16px;
   color: #464343;

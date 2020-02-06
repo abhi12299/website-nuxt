@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Preloader />
     <transition name="fade">
       <IntroHeader v-show="showIntroHeader && !initiateForceLogout" />
     </transition>
@@ -19,13 +20,15 @@ import IntroHeader from '~/components/IntroHeader'
 import Header from '~/components/Header'
 import Footer from '~/components/Footer'
 import AdminFAB from '~/components/AdminFAB'
+import Preloader from '~/components/Preloader'
 
 export default {
   components: {
     IntroHeader,
     Header,
     Footer,
-    AdminFAB
+    AdminFAB,
+    Preloader
   },
   data() {
     return {

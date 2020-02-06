@@ -9,9 +9,9 @@
               <p>{{ error.errorMessage || error.message }}</p>
 
               <div class="d-flex justify-content-center col-sm-12">
-                <div class="button-4">
+                <div @click="goToHome" class="button-4">
                   <div class="eff-4"></div>
-                  <span @click="goToHome">Back To Home</span>
+                  <span>Back To Home</span>
                 </div>
               </div>
             </div>
