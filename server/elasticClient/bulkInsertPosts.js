@@ -1,5 +1,3 @@
-const striptags = require('striptags')
-
 const Post = require('../models/post.model')
 const logger = require('../logger')
 const client = require('./index')
@@ -29,7 +27,7 @@ async function bulkInsertPosts() {
             id: '$_id',
             title: 1,
             postedDate: 1,
-            body: 1,
+            metaDescription: 1,
             published: 1,
             _id: 0
           }
@@ -42,12 +40,7 @@ async function bulkInsertPosts() {
             _id: post.id
           }
         })
-        let body = post.body
-          .replace(/\s/gi, ' ')
-          .replace(/<code.*?<\/code>/gi, '')
-
-        body = decodeURI(striptags(body))
-        posts.push({ ...post, body })
+        posts.push({ ...post })
       }
     }
     const resp = await client.bulk({

@@ -2,7 +2,6 @@ const fs = require('fs')
 const path = require('path')
 const Router = require('express').Router
 const multer = require('multer')
-const striptags = require('striptags')
 
 const Media = require('../models/media.model')
 const Post = require('../models/post.model')
@@ -70,15 +69,10 @@ dashboardRouter.post('/savePost', async (req, res) => {
     isPostPublishable
   })
   if (savedPost) {
-    let body = savedPost.body
-      .replace(/\s/gi, ' ')
-      .replace(/<code.*?<\/code>/gi, '')
-
-    body = decodeURI(striptags(body))
     const elasticPostBody = {
       id: savedPost._id,
       title: savedPost.title,
-      body,
+      metaDescription: savedPost.metaDescription,
       published: savedPost.published,
       postedDate: savedPost.postedDate
     }
@@ -301,14 +295,10 @@ dashboardRouter.patch('/editPost', async (req, res) => {
         media: newAttachedMedia,
         isPostPublishable
       })
-
-      let newBody = body.replace(/\s/gi, ' ').replace(/<code.*?<\/code>/gi, '')
-
-      newBody = decodeURI(striptags(newBody))
       const elasticPostBody = {
         id: newPost._id,
         title: newPost.title,
-        body: newBody,
+        metaDescription,
         published: newPost.published,
         postedDate: newPost.postedDate
       }
@@ -329,14 +319,9 @@ dashboardRouter.patch('/editPost', async (req, res) => {
       isPostPublishable
     })
     try {
-      let newBody = newPost.body
-        .replace(/\s/gi, ' ')
-        .replace(/<code.*?<\/code>/gi, '')
-
-      newBody = decodeURI(striptags(newBody))
       const elasticPostUpdates = {
         title: newPost.title,
-        body: newBody
+        metaDescription
       }
       await elasticSearchHelper.updatePost(newPost._id, elasticPostUpdates)
     } catch (error) {
@@ -361,14 +346,6 @@ dashboardRouter.patch('/editPost', async (req, res) => {
       usedInUnpublishedPosts: newPost.published ? 0 : 1
     }
   })
-
-  // if (newPost.published) {
-  //     // decrement usedInPosts for oldMedia
-  //     await Media.updateMedias(oldMedia, { $inc: {usedInPosts: -1} })
-  //     // increment usedInPosts for newMedia
-  //     await Media.updateMedias(newMedia, { $inc: {usedInPosts: 1} })
-  // }
-
   return res.json({ error: false, msg: 'Post updated successfully!' })
 })
 

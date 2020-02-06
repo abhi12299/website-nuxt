@@ -27,7 +27,9 @@
             {{ s.published ? 'Published' : 'Unpublished' }}
           </p>
         </div>
-        <p v-html="postBodyMatchedText(s.body)" class="post-body-text"></p>
+        <p class="post-body-text">
+          {{ s.metaDescription }}
+        </p>
       </a>
       <div v-if="idx !== $props.suggestions.length - 1" class="sep" />
     </div>
@@ -35,8 +37,6 @@
 </template>
 
 <script>
-import utils from '~/utils'
-
 export default {
   props: {
     suggestions: {
@@ -57,9 +57,6 @@ export default {
     }
   },
   methods: {
-    postBodyMatchedText(body) {
-      return utils.getMatchedText(this.$props.searchQuery, body)
-    },
     handleSuggestionClick(suggestion) {
       const postLink =
         this.$props.adminButtons && !suggestion.published

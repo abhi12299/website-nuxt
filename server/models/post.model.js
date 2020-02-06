@@ -230,20 +230,15 @@ PostSchema.statics = {
           $project: {
             _id: 1,
             title: 1,
-            published: 1
+            published: 1,
+            metaDescription: 1
           }
         }
       ]
       const posts = await this.aggregate(aggrQuery)
 
       return {
-        data: posts.map((p) => {
-          const postData = data.filter((d) => d._id === p._id)[0] || {}
-          return {
-            ...p,
-            body: postData.body || ''
-          }
-        }),
+        data: posts,
         error: false
       }
     } catch (error) {

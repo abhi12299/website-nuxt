@@ -1,4 +1,3 @@
-import getMatchedText from './getMatchedText'
 import getDateParts from './getDateParts'
 import getShareURL from './getShareURL'
 import createPagination from './createPagination'
@@ -8,7 +7,6 @@ import uploadMedia from './uploadMedia'
 import copyToClipboard from './copyToClipboard'
 
 export default {
-  getMatchedText,
   getDateParts,
   getShareURL,
   createPagination,

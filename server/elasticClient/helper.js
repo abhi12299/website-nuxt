@@ -9,7 +9,7 @@ async function addPost(doc) {
       body: {
         id: doc.id,
         title: doc.title,
-        body: doc.body,
+        metaDescription: doc.metaDescription,
         published: doc.published,
         postedDate: doc.postedDate
       }
@@ -35,30 +35,6 @@ async function updatePost(_id, updates) {
       }
     }
     const resp = await client.update(postObj)
-
-    // const script = {
-    //     inline: ''
-    // }
-    // for (const key of Object.keys(updates)) {
-    //     script.inline += `ctx._source.${key} = `
-    //     if (typeof updates[key] === 'string') {
-    //         script.inline += `'${updates[key]}'`
-    //     } else {
-    //         script.inline += `${updates[key]} `
-    //     }
-    // }
-    // const resp = await client.updateByQuery({
-    //     index: 'post',
-    //     type: '_doc',
-    //     body: {
-    //         query: {
-    //             match: {
-    //                 id: _id
-    //             }
-    //         },
-    //         script
-    //     }
-    // })
     logger.info('update post, elastic resp is', resp)
     return { error: false }
   } catch (error) {
@@ -116,7 +92,7 @@ async function suggestions({ q, sortBy, sortOrder, published, skip, limit }) {
               },
               {
                 match: {
-                  body: {
+                  metaDescription: {
                     query: q,
                     prefix_length: 3,
                     max_expansions: 10,
@@ -126,7 +102,10 @@ async function suggestions({ q, sortBy, sortOrder, published, skip, limit }) {
               },
               {
                 wildcard: {
-                  body: { value: `*${sanitize(q).toLowerCase()}*`, boost: 1.1 }
+                  metaDescription: {
+                    value: `*${sanitize(q).toLowerCase()}*`,
+                    boost: 1.1
+                  }
                 }
               }
             ],
@@ -151,7 +130,7 @@ async function suggestions({ q, sortBy, sortOrder, published, skip, limit }) {
     const resp = await client.search(elasticRequest)
     if (resp.hits) {
       return {
-        data: resp.hits.hits.map((r) => ({ _id: r._id, body: r._source.body })),
+        data: resp.hits.hits.map((r) => ({ _id: r._id })),
         error: false,
         count: resp.hits.total.value
       }

@@ -12,7 +12,7 @@ async function createIndex() {
     })
     const schema = {
       title: { type: 'text' },
-      body: { type: 'text' },
+      metaDescription: { type: 'text' },
       published: { type: 'byte' },
       postedDate: { type: 'date' },
       id: { type: 'keyword' }
