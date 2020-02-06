@@ -72,7 +72,7 @@ export default {
         prismCss.href = '../prism/prism.css'
         document.body.appendChild(prismScript)
         document.body.appendChild(prismCss)
-        document.body.appendChild(prismInit)
+        prismScript.onload = () => document.body.appendChild(prismInit)
       }
 
       setTimeout(window.highlight, highlightTimeout)
