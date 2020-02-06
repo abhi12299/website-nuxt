@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="row dashboard-posts-headee">
+    <div class="row dashboard-posts-header">
       <div class="offset-lg-6 col-lg-6 col-md-12 col-12">
         <div class="row">
           <div
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState } from 'vuex'
 import Pagination from '~/components/Pagination'
 import Dropdown from '~/components/Dropdown'
 import PostTile from '~/components/PostTile'
@@ -162,9 +162,6 @@ export default {
     return +toPage < +fromPage ? 'slide-right' : 'slide-left'
   },
   methods: {
-    ...mapActions({
-      fetchDashboardPosts: 'posts/fetchDashboardPosts'
-    }),
     handleDropdownChange(payload) {
       this.selectedDropdownOption = payload
       this.$router.push({
@@ -185,6 +182,6 @@ export default {
 
 <style scoped>
 .dashboard-posts-header {
-  margin-top: 10px;
+  margin-top: 5px;
 }
 </style>

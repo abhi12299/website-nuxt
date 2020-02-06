@@ -10,7 +10,7 @@ export const state = () => ({
   errorMessage: null,
   data: null,
   count: 0,
-  page: null,
+  page: 1,
   pathname: '' // this is used in 2 routes, hence for distinction
 })
 
@@ -162,7 +162,7 @@ export const actions = {
     }
   },
   async fetchDashboardPosts(
-    { commit, state, dispatch },
+    { commit, dispatch },
     { req, query, perPage = 10 }
   ) {
     const { sortBy = 'postedDate', sortOrder = '-1', published = 'all' } = query
@@ -190,11 +190,9 @@ export const actions = {
       url += `${appendToQuery ? '&' : '?'}skip=${(page - 1) * perPage}`
       appendToQuery = true
     }
-    if (filters) {
-      for (const [key, val] of Object.entries(filters)) {
-        url += `${appendToQuery ? '&' : '?'}${key}=${val}`
-        appendToQuery = true
-      }
+    for (const [key, val] of Object.entries(filters)) {
+      url += `${appendToQuery ? '&' : '?'}${key}=${val}`
+      appendToQuery = true
     }
 
     try {
