@@ -19,7 +19,7 @@ To run this locally, clone this repo and `cd` in the project directory
     </li>
     <li>
         Make a file <pre>constants/apiKeys.js</pre> with the following contents:
-        <pre>export default {
+        <pre>module.exports = {
     TINY_MCE_API_KEY: 'your-api-key',
     WIDGETPACK_PLUGIN_ID: 'your-plugin-id',
     GTAG_ID: 'your-google-tag-id'

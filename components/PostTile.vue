@@ -46,7 +46,11 @@
         <template v-if="post.published">
           <ul v-if="!nativeShare" class="blog-social-share list-inline">
             <li class="list-inline-item">
-              <a :href="sharer.facebook" target="_blank">
+              <a
+                @click="handleShareClick('Facebook')"
+                :href="sharer.facebook"
+                target="_blank"
+              >
                 <font-awesome-icon
                   :icon="['fab', 'facebook']"
                   class="blog-ss-icons"
@@ -55,7 +59,11 @@
               </a>
             </li>
             <li class="list-inline-item">
-              <a :href="sharer.whatsApp" target="_blank">
+              <a
+                @click="handleShareClick('WhatsApp')"
+                :href="sharer.whatsApp"
+                target="_blank"
+              >
                 <font-awesome-icon
                   :icon="['fab', 'whatsapp']"
                   class="blog-ss-icons"
@@ -64,7 +72,11 @@
               </a>
             </li>
             <li class="list-inline-item">
-              <a :href="sharer.twitter" target="_blank">
+              <a
+                @click="handleShareClick('Twitter')"
+                :href="sharer.twitter"
+                target="_blank"
+              >
                 <font-awesome-icon
                   :icon="['fab', 'twitter']"
                   class="blog-ss-icons"
@@ -73,7 +85,11 @@
               </a>
             </li>
             <li class="list-inline-item">
-              <a :href="sharer.linkedIn" target="_blank">
+              <a
+                @click="handleShareClick('LinkedIn')"
+                :href="sharer.linkedIn"
+                target="_blank"
+              >
                 <font-awesome-icon
                   :icon="['fab', 'linkedin']"
                   class="blog-ss-icons"
@@ -138,6 +154,9 @@ export default {
     this.nativeShare = !!navigator.share
   },
   methods: {
+    handleShareClick(type) {
+      this.$ga.social(type, 'share', this.shareURL)
+    },
     async handleTogglePublish() {
       if (this.loading) {
         return
@@ -167,8 +186,13 @@ export default {
           url: this.shareURL
         })
         .then(() => {
-          // TODO: dispatch ga share event
+          this.$ga.event({
+            eventCategory: 'post',
+            eventAction: 'nativeShare',
+            eventLabel: this.shareURL
+          })
         })
+        .catch(() => {})
     },
     ...mapActions({
       togglePublishFromAllBlogs: 'posts/togglePublish',

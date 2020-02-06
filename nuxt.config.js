@@ -1,4 +1,5 @@
 require('dotenv').config()
+const keys = require('./constants/apiKeys')
 
 module.exports = {
   mode: 'universal',
@@ -16,8 +17,8 @@ module.exports = {
         content: 'Abhishek Mehandiratta | Web Developer'
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
-    script: [{ src: '/removePreloader.js' }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    // script: [{ src: '/removePreloader.js' }]
   },
   /*
    ** Customize the progress-bar color
@@ -32,14 +33,25 @@ module.exports = {
    */
   plugins: [
     { src: '~/plugins/toastr-init', mode: 'client' },
-    { src: '~/plugins/aos', mode: 'client' }
+    { src: '~/plugins/aos', mode: 'client' },
+    { src: '~/plugins/removePreloader', mode: 'client' }
   ],
   /*
    ** Nuxt.js dev-modules
    */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    [
+      '@nuxtjs/google-analytics',
+      {
+        id: keys.GTAG_ID
+        // debug: {
+        //   enabled: true,
+        //   sendHitTask: true
+        // }
+      }
+    ]
   ],
   router: {
     middleware: 'auth'

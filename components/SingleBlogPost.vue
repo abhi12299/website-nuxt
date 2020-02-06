@@ -28,6 +28,7 @@
               <li class="list-inline-item">
                 <a
                   :href="sharer.facebook"
+                  @click="handleShareClick('Facebook')"
                   target="_blank"
                   class="text-facebook"
                 >
@@ -35,13 +36,19 @@
                 </a>
               </li>
               <li class="list-inline-item">
-                <a :href="sharer.twitter" target="_blank" class="text-twiiter">
+                <a
+                  :href="sharer.twitter"
+                  @click="handleShareClick('Twitter')"
+                  target="_blank"
+                  class="text-twiiter"
+                >
                   Twitter
                 </a>
               </li>
               <li class="list-inline-item">
                 <a
                   :href="sharer.linkedIn"
+                  @click="handleShareClick('LinkedIn')"
                   target="_blank"
                   class="text-linkedin"
                 >
@@ -51,13 +58,14 @@
               <li class="list-inline-item">
                 <a
                   :href="sharer.whatsApp"
+                  @click="handleShareClick('WhatsApp')"
                   target="_blank"
                   class="text-whatsapp"
                 >
                   Whatsapp
                 </a>
               </li>
-              <li v-if="!nativeShare" class="list-inline-item">
+              <li v-if="nativeShare" class="list-inline-item">
                 <a @click="handleNativeShare" class="text-other">
                   Other
                 </a>
@@ -90,6 +98,7 @@
 </template>
 
 <script>
+import $ from 'jquery'
 import utils from '../utils'
 import baseURL from '../server/constants/apiURL'
 import keys from '../constants/apiKeys'
@@ -106,7 +115,9 @@ export default {
   },
   data() {
     return {
-      nativeShare: false
+      nativeShare: false,
+      debounceTimer: null,
+      readEventSent: false
     }
   },
   computed: {
@@ -119,6 +130,7 @@ export default {
     }
   },
   mounted() {
+    window.addEventListener('scroll', this.trackProgress)
     this.nativeShare = !!navigator.share
     const { enableComments } = this.$props
     if (!enableComments) return
@@ -150,13 +162,41 @@ export default {
   },
   beforeDestroy() {
     delete window.wpac_init
+    window.removeEventListener('scroll', this.trackProgress)
   },
   methods: {
+    trackProgress() {
+      if (this.readEventSent) return
+
+      if (this.debounceTimer) {
+        clearTimeout(this.debounceTimer)
+      }
+      this.debounceTimer = setTimeout(() => {
+        const scrollTop = $(window).scrollTop()
+        const docHeight = $(document).height()
+        const winHeight = $(window).height()
+        const scrollPercent = scrollTop / (docHeight - winHeight)
+        const scrollPercentRounded = Math.round(scrollPercent * 100)
+
+        if (!this.readEventSent && scrollPercentRounded > 50) {
+          this.$ga.event({
+            eventCategory: 'post',
+            eventAction: 'read',
+            eventLabel: this.shareURL
+          })
+          this.readEventSent = true
+        }
+      }, 100)
+    },
+    handleShareClick(type) {
+      this.$ga.social(type, 'share', this.shareURL)
+    },
     getFormattedDate() {
       const d = utils.getDateParts(this.$props.blogPost.postedDate)
       return `${d.date} ${d.month} ${d.year}`
     },
     handleNativeShare() {
+      if (!this.nativeShare) return
       navigator
         .share({
           title: document.title,
@@ -164,8 +204,13 @@ export default {
           url: this.shareURL
         })
         .then(() => {
-          // TODO: dispatch ga share event
+          this.$ga.event({
+            eventCategory: 'post',
+            eventAction: 'nativeShare',
+            eventLabel: this.shareURL
+          })
         })
+        .catch(() => {})
     }
   }
 }
