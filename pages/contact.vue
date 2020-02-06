@@ -62,8 +62,8 @@
 
 <script>
 import fetch from 'isomorphic-unfetch'
-import baseURL from '../server/constants/apiURL'
 import { showToast } from '../utils/toasts'
+import baseURL from '~/constants/apiURL'
 import LoadingSVG from '~/components/LoadingSVG'
 
 export default {

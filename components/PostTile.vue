@@ -110,7 +110,7 @@
 <script>
 import { mapActions } from 'vuex'
 import utils from '../utils'
-import baseURL from '../server/constants/apiURL'
+import baseURL from '~/constants/apiURL'
 
 export default {
   props: {

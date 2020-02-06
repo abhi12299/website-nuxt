@@ -94,8 +94,8 @@
 </template>
 
 <script>
-import baseURL from '../server/constants/apiURL'
 import utils from '../utils'
+import baseURL from '~/constants/apiURL'
 
 export default {
   props: {

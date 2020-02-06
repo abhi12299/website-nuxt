@@ -14,7 +14,7 @@
 
 <script>
 import fetch from 'isomorphic-unfetch'
-import baseURL from '~/server/constants/apiURL'
+import baseURL from '~/constants/apiURL'
 
 export default {
   layout: 'page',

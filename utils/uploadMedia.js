@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import baseURL from '~/server/constants/apiURL'
+import baseURL from '~/constants/apiURL'
 
 function noop() {}
 

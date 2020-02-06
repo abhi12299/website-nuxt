@@ -98,8 +98,8 @@
 <script>
 import fetch from 'isomorphic-unfetch'
 import { showToast } from '../utils/toasts'
-import baseURL from '../server/constants/apiURL'
 import LoadingSVG from './LoadingSVG'
+import baseURL from '~/constants/apiURL'
 
 export default {
   components: {

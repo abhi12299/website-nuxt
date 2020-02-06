@@ -100,8 +100,8 @@
 <script>
 import $ from 'jquery'
 import utils from '../utils'
-import baseURL from '../server/constants/apiURL'
 import keys from '../constants/apiKeys'
+import baseURL from '~/constants/apiURL'
 
 export default {
   props: {

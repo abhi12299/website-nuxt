@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import fetch from 'isomorphic-unfetch'
 import types from '../constants/types'
-import baseURL from '../server/constants/apiURL'
+import baseURL from '~/constants/apiURL'
 
 export const state = () => ({
   errorMessage: '',

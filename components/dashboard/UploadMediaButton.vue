@@ -26,7 +26,7 @@
 import utils from '../../utils'
 import { showToast } from '../../utils/toasts'
 import ImageCropper from './ImageCropper'
-import baseURL from '~/server/constants/apiURL'
+import baseURL from '~/constants/apiURL'
 
 export default {
   components: {

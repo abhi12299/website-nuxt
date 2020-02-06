@@ -34,20 +34,16 @@ export default {
   },
   mounted() {
     if (document.readyState === 'complete') {
-      this.appendScripts(1000)
+      this.appendScripts()
     } else {
-      window.addEventListener('load', () => this.appendScripts(100))
+      window.addEventListener('load', () => this.appendScripts())
     }
   },
   beforeDestroy() {
     delete window.PRISM_CODE_PARSED
   },
   methods: {
-    appendScripts(highlightTimeout) {
-      console.log(
-        'appending',
-        document.querySelector('script[src$="prism.js"]')
-      )
+    appendScripts() {
       if (!document.querySelector('script[src$="prism.js"]')) {
         const prismScript = document.createElement('script')
         prismScript.src = '../prism/prism.js'
@@ -55,14 +51,13 @@ export default {
 
         const prismInit = document.createElement('script')
         prismInit.innerHTML = `
+          let timer = null
+          timer = setInterval(window.highlight, 500)
           function highlight() {
-            console.log('starting to highlight')
-            console.log("'Prism' in window", 'Prism' in window)
-            console.log("'PRISM_CODE_PARSED' in window", 'PRISM_CODE_PARSED' in window)
             if ('Prism' in window && !('PRISM_CODE_PARSED' in window)) {
               Prism.highlightAll(false, () => {
                 window.PRISM_CODE_PARSED = true;
-                console.log('done parsing')
+                clearInterval(timer)
               });
             }
           }
@@ -76,7 +71,7 @@ export default {
         document.body.appendChild(prismInit)
       }
 
-      setTimeout(window.highlight, highlightTimeout)
+      setTimeout(window.highlight, 1000)
     }
   },
   head() {
