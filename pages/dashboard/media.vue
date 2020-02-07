@@ -19,9 +19,9 @@
         />
         <video
           v-else
-          :controls="true"
-          :muted="true"
           :src="selectedMedia.url"
+          controls="true"
+          muted="true"
           class="deleted-media-video"
         />
       </div>
@@ -199,5 +199,8 @@ export default {
 }
 .delete-media-container {
   text-align: center;
+}
+.deleted-media-video {
+  width: 100%;
 }
 </style>

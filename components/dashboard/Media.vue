@@ -2,10 +2,20 @@
   <div class="col-lg-3 col-6 media-card">
     <div class="card">
       <img
+        v-if="media.type === 'image'"
         :src="media.url"
         @click="handlePreview"
         alt="Card image cap"
         class="card-img-top media-card-img"
+      />
+      <video
+        v-else
+        :src="media.url"
+        autoplay
+        muted
+        controls
+        loop
+        class="ard-img-top media-card-img"
       />
     </div>
     <div class="card-body row c2a-btns mx-auto">
