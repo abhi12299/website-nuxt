@@ -269,7 +269,7 @@ export default {
   font-weight: bold;
   font-size: 12px;
   letter-spacing: 2px;
-  color: #999;
+  color: #444040;
   margin-bottom: 15px;
 }
 
@@ -279,7 +279,7 @@ export default {
   width: 6px;
   height: 6px;
   border-radius: 10px;
-  background-color: #ccc;
+  background-color: #444040;
 }
 
 .single-post .entry-media {
