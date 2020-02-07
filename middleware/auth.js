@@ -4,12 +4,17 @@ export default async function({ store, req, error, route }) {
 
   let errorMessage =
     auth.errorMessage || 'Something went wrong! Please try later.'
-  if (route.path.startsWith('/dashboard') && !auth.admin) {
+  if (
+    (route.path.startsWith('/dashboard') || route.path.includes('/preview/')) &&
+    !auth.admin
+  ) {
     errorMessage = 'You need to be logged in!'
   }
   if (
     auth.initiateForceLogout ||
-    (route.path.startsWith('/dashboard') && !auth.admin)
+    ((route.path.startsWith('/dashboard') ||
+      route.path.includes('/preview/')) &&
+      !auth.admin)
   ) {
     error({
       statusCode: 400,
