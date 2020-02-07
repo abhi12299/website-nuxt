@@ -54,7 +54,8 @@
           { text: 'HTTP', value: 'http' },
           { text: 'Markdown', value: 'markdown' },
           { text: 'React', value: 'jsx' }
-        ]
+        ],
+        video_template_callback: handleVideoInput
       }"
       @onChange="handleEditorChange"
       @onKeyUp="handleEditorChange"
@@ -110,6 +111,9 @@ export default {
       setPostTitle: 'dashboardPost/setPostTitle',
       setPostBody: 'dashboardPost/setPostBody'
     }),
+    handleVideoInput(data) {
+      return `<video src="${data.source1}" width="100%" height="100%" autoplay="autoplay" loop="loop" muted="" controls="controls"></video>`
+    },
     handleTitleInputBlur() {
       const titleElem = this.$refs.titleInput
       const errorElem = this.$refs.titleError

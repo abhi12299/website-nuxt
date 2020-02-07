@@ -55,6 +55,11 @@ async function start() {
   app.use('/api', apiRouter)
   app.use('/auth', authRouter)
 
+  // for videos
+  app.get('/post/static/blogs/:assetName', (req, res) => {
+    res.redirect(`/static/blogs/${req.params.assetName}`)
+  })
+
   // Give nuxt middleware to express
   app.use(nuxt.render)
 

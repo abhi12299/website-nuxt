@@ -12,7 +12,7 @@ module.exports = (headerImage, postBody) => {
   const fullURLRegex = new RegExp(`^${baseURL}/static/blogs/`)
   // short urls beign with ../static/blogs
   // tinyMCE trims same source urls to this
-  const shortURLRegex = new RegExp('/static/blogs/')
+  const shortURLRegex = new RegExp('/?static/blogs/')
   if (fullURLRegex.test(headerImage) || shortURLRegex.test(headerImage)) {
     const temp = headerImage.split('/')
     // only need the asset name, not full path
@@ -36,7 +36,8 @@ module.exports = (headerImage, postBody) => {
       fullURLRegex.test(video.attribs.src) ||
       shortURLRegex.test(video.attribs.src)
     ) {
-      assetNames.push(video.attribs.src)
+      const temp = video.attribs.src.split('/')
+      assetNames.add(temp[temp.length - 1])
     }
   })
 
