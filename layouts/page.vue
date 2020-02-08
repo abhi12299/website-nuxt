@@ -9,6 +9,9 @@
       <AdminFAB v-if="admin" />
       <nuxt />
     </div>
+    <client-only>
+      <CookieBanner />
+    </client-only>
     <Footer />
   </div>
 </template>
@@ -16,6 +19,7 @@
 <script>
 import { mapState } from 'vuex'
 
+import CookieBanner from '~/components/CookieBanner'
 import IntroHeader from '~/components/IntroHeader'
 import Header from '~/components/Header'
 import Footer from '~/components/Footer'
@@ -28,7 +32,8 @@ export default {
     Header,
     Footer,
     AdminFAB,
-    Preloader
+    Preloader,
+    CookieBanner
   },
   data() {
     return {
