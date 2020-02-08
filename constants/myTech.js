@@ -1,11 +1,11 @@
 export default [
+  'Vue',
   'ReactJS',
   'NextJS',
+  'Go',
   'NodeJS',
-  'ExpressJS',
   'MongoDB',
-  'SocketIO',
   'Firebase',
-  'GRPC',
-  'Flutter'
+  'Docker',
+  'Kubernetes'
 ]
