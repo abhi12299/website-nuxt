@@ -63,7 +63,7 @@
             </li>
             <li class="list-inline-item">
               <div class="social-icons-surround">
-                <a href="../static/pdf/Abhishek.pdf" download="AbhishekCV">
+                <a href="Abhishek.pdf" download="AbhishekCV">
                   <font-awesome-icon
                     :icon="['far', 'file-pdf']"
                     size="3x"
