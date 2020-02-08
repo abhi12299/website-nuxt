@@ -98,7 +98,12 @@
               </a>
             </li>
           </ul>
-          <span @click="handleNativeShare" class="entry-meta bold float-right">
+          <span
+            @click="handleNativeShare"
+            :class="
+              `entry-meta bold float-right ${nativeShare ? 'show' : 'hide'}`
+            "
+          >
             Share
           </span>
         </template>
@@ -214,6 +219,10 @@ export default {
   color: #111;
   font-family: PoppinsBold;
   padding-left: 15px;
+}
+
+.entry-meta.show {
+  cursor: pointer;
 }
 
 .meta-tags {
@@ -407,7 +416,11 @@ export default {
     padding-right: 0px;
   }
 
-  .blog-post span.entry-meta {
+  .entry-meta.show {
+    margin-right: 15px;
+  }
+
+  .blog-post .entry-meta.hide {
     display: none;
   }
 }
