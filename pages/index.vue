@@ -16,7 +16,7 @@ export default {
   },
   data() {
     return {
-      metaDesc: `Hi! I am Abhishek. I love developing web apps, especially server side applications.`,
+      metaDesc: `I'm a full stack web developer specializing in server side app development. I like coding in Javascript and Go. You can read my blogs and learn more about me and my projects here.`,
       title: 'Abhishek Mehandiratta | Web Developer'
     }
   },

@@ -88,7 +88,7 @@ export default {
   layout: 'page',
   data() {
     return {
-      metaDesc: `Hi! I am Abhishek. I love developing web apps, especially server side applications.`,
+      metaDesc: `I'm a passionate web developer, always keen to learn new things. Find more about my skills and technologies I work with.`,
       title: 'About Me - Abhishek Mehandiratta | Web Developer',
       myTech
     }

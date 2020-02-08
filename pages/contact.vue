@@ -80,7 +80,7 @@ export default {
       emailValid: true,
       messageValid: true,
       loading: false,
-      metaDesc: `Hi! I am Abhishek. I love developing web apps, especially server side applications.`,
+      metaDesc: `Reach out to me on my email or fill a form and I'll get back to you.`,
       title: 'Contact Me - Abhishek Mehandiratta | Web Developer'
     }
   },

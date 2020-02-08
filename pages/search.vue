@@ -36,9 +36,7 @@ export default {
       )} - Search Results - Abhishek Mehandiratta | Web Developer`
     },
     metaDesc() {
-      return `count Results For ${decodeURI(
-        this.query
-      )} - Abhishek Mehandiratta | Web Developer`
+      return `Search in all blogs.`
     },
     ...mapState({
       query: (state) => state.search.searchQuery,
