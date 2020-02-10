@@ -456,6 +456,22 @@ export default {
 }
 
 @media (max-width: 767px) {
+  .single-post pre {
+    font-size: 12px !important;
+  }
+
+  .single-post p,
+  .single-post ol,
+  .single-post ul {
+    margin-bottom: 5px !important;
+    margin-top: 5px !important;
+  }
+
+  .single-post .social-text li a,
+  .single-post .taglist li a {
+    font-size: 14px;
+  }
+
   .single-post h5 {
     display: block;
   }
@@ -471,19 +487,24 @@ export default {
   }
   .about-wrapper p,
   .single-post p,
-  .single-post ol .single-post ul {
-    line-height: 29px;
-    font-size: 15px;
+  .single-post ol,
+  .single-post ul,
+  .single-post li {
+    line-height: 27px !important;
+    font-size: 15px !important;
   }
   .fullpage-wrapper .single-post {
     padding: 50px 15px;
   }
   .single-post .social-text .list-inline-item:not(:last-child) {
-    margin-right: 15px;
+    margin-right: 10px;
+  }
+  .single-post .taglist li {
+    padding-right: 10px;
   }
   .single-post ol,
   .single-post ul {
-    margin-left: 10px;
+    margin-left: 10px !important;
   }
 }
 
