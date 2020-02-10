@@ -458,6 +458,7 @@ export default {
 @media (max-width: 767px) {
   .single-post pre {
     font-size: 12px !important;
+    margin: 20px 0 !important;
   }
 
   .single-post p,
@@ -504,7 +505,7 @@ export default {
   }
   .single-post ol,
   .single-post ul {
-    margin-left: 10px !important;
+    margin-left: 15px !important;
   }
 }
 
