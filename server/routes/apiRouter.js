@@ -6,6 +6,8 @@ const subscriberController = require('../controllers/subscribe.controller')
 const postController = require('../controllers/post.controller')
 const dashboardController = require('../controllers/dashboard.controller')
 const contactController = require('../controllers/contact.controller')
+const sitemapController = require('../controllers/sitemap.controller')
+
 const apiRouter = Router()
 
 apiRouter.use('/subscribe', subscriberController)
@@ -22,5 +24,7 @@ apiRouter.use(
 )
 
 apiRouter.use('/contact', contactController)
+
+apiRouter.use('/sitemap', sitemapController)
 
 module.exports = apiRouter
