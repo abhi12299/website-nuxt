@@ -1,5 +1,8 @@
 require('dotenv').config()
+const fetch = require('isomorphic-unfetch')
 const keys = require('./constants/apiKeys')
+const baseURL = require('./server/constants/apiURL')
+const logger = require('./server/logger')
 
 module.exports = {
   mode: 'universal',
@@ -83,8 +86,32 @@ module.exports = {
           }
         ]
       }
-    ]
+    ],
+    '@nuxtjs/sitemap'
   ],
+  sitemap: {
+    hostname: 'https://iabhishek.dev',
+    path: '/sitemap.xml',
+    gzip: true,
+    exclude: ['/preview/**', '/dashboard', '/dashboard/**'],
+    routes: async () => {
+      let posts = []
+      try {
+        let resp = await fetch(`${baseURL}/api/sitemap/getPosts`)
+        resp = await resp.json()
+        posts = resp.data
+      } catch (err) {
+        logger.error('Sitemap err', err)
+      }
+      return posts
+    },
+    defaults: {
+      changefreq: 'weekly',
+      priority: 1,
+      lastmod: new Date(),
+      lastmodrealtime: true
+    }
+  },
   /*
    ** Build configuration
    */
