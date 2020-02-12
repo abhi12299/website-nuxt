@@ -81,23 +81,28 @@ export default {
         {
           hid: 'twitter:card',
           name: 'twitter:card',
-          content: 'https://iabhishek.dev/static/logo.png'
+          content: 'summary_large_image'
         },
         {
           hid: 'twitter:site',
           name: 'twitter:site',
-          content: 'https://iabhishek.dev'
-        },
-        {
-          hid: 'twitter:creator',
-          name: 'twitter:creator',
-          content: '@abhishek_m'
+          content: '@abhishek_m_dev'
         },
         { hid: 'twitter:title', name: 'twitter:title', content: this.title },
         {
           hid: 'twitter:description',
           name: 'twitter:description',
           content: this.metaDesc
+        },
+        {
+          hid: 'twitter:image',
+          name: 'twitter:image',
+          content: 'https://iabhishek.dev/static/logo.png'
+        },
+        {
+          hid: 'twitter:image:alt',
+          name: 'twitter:image:alt',
+          content: 'Website logo'
         }
       ],
       link: [

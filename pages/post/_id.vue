@@ -109,17 +109,12 @@ export default {
         {
           hid: 'twitter:card',
           name: 'twitter:card',
-          content: 'https://iabhishek.dev/static/logo.png'
+          content: 'summary_large_image'
         },
         {
           hid: 'twitter:site',
           name: 'twitter:site',
-          content: 'https://iabhishek.dev'
-        },
-        {
-          hid: 'twitter:creator',
-          name: 'twitter:creator',
-          content: '@abhishek_m'
+          content: '@abhishek_m_dev'
         },
         { hid: 'twitter:title', name: 'twitter:title', content: this.title },
         {
@@ -146,6 +141,16 @@ export default {
           hid: 'twitter:data2',
           name: 'twitter:data2',
           content: this.metaKeywords
+        },
+        {
+          hid: 'twitter:image',
+          name: 'twitter:image',
+          content: this.post.headerImageURL
+        },
+        {
+          hid: 'twitter:image:alt',
+          name: 'twitter:image:alt',
+          content: 'Header image for the post'
         }
       ],
       link: [
