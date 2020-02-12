@@ -436,6 +436,10 @@ export default {
   padding-top: 30px;
 }
 
+.single-post .entry-share-div {
+  margin-top: 15px;
+}
+
 .single-post .entry-share-div h5 {
   font-family: PoppinsBold;
 }
@@ -461,6 +465,9 @@ export default {
     margin: 20px 0 !important;
   }
 
+  .single-post h3 {
+    font-size: 20px;
+  }
   .single-post p,
   .single-post ol,
   .single-post ul {
