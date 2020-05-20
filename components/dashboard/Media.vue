@@ -87,6 +87,10 @@ export default {
   height: fit-content;
 }
 
+.media-card video {
+  max-height: 150px;
+}
+
 .media-card .media-card-img {
   border-bottom: 1px solid black;
   cursor: pointer;

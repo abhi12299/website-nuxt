@@ -16,7 +16,7 @@ export default {
       post: (state) => state.singlePost.data
     }),
     title() {
-      return `${this.post.title} - Abhishek Mehandiratta | Web Developer`
+      return this.post.title
     },
     metaKeywords() {
       return this.post.metaKeywords.join(', ')
