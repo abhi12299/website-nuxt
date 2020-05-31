@@ -28,7 +28,7 @@
                 </a>
               </div>
             </li>
-            <li class="list-inline-item">
+            <!-- <li class="list-inline-item">
               <div class="social-icons-surround">
                 <a
                   target="_blank"
@@ -43,7 +43,7 @@
                   />
                 </a>
               </div>
-            </li>
+            </li> -->
 
             <li class="list-inline-item">
               <div class="social-icons-surround">
@@ -63,12 +63,15 @@
             </li>
             <li class="list-inline-item">
               <div class="social-icons-surround">
-                <a href="Abhishek.pdf" download="AbhishekCV">
+                <a
+                  href="https://www.linkedin.com/in/abhishek-mehandiratta-4269761a1/"
+                  target="_blank"
+                >
                   <font-awesome-icon
-                    :icon="['far', 'file-pdf']"
+                    :icon="['fab', 'linkedin-in']"
                     size="3x"
                     class="icon"
-                    title="CV"
+                    title="LinkedIn"
                   />
                 </a>
               </div>

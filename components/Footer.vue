@@ -62,7 +62,7 @@
                 />
               </a>
             </li>
-            <li class="list-inline-item">
+            <!-- <li class="list-inline-item">
               <a
                 target="_blank"
                 rel="noopener"
@@ -74,7 +74,7 @@
                   title="Stack Overflow"
                 />
               </a>
-            </li>
+            </li> -->
             <li class="list-inline-item">
               <a
                 target="_blank"
@@ -85,6 +85,18 @@
                   :icon="['far', 'envelope']"
                   class="icon"
                   title="Email"
+                />
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a
+                href="https://www.linkedin.com/in/abhishek-mehandiratta-4269761a1/"
+                target="_blank"
+              >
+                <font-awesome-icon
+                  :icon="['fab', 'linkedin-in']"
+                  class="icon"
+                  title="LinkedIn"
                 />
               </a>
             </li>
