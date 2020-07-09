@@ -1,7 +1,8 @@
 const Joi = require('@hapi/joi')
 const logger = require('../logger')
+const secrets = require('../../secrets')
 
-const envVarsSchema = Joi.object({
+const secretsSchema = Joi.object({
   NODE_ENV: Joi.string()
     .valid('development', 'production', 'test', 'provision')
     .default('development'),
@@ -24,8 +25,8 @@ const envVarsSchema = Joi.object({
   .unknown()
   .required()
 
-const { error } = envVarsSchema.validate(process.env)
+const { error } = secretsSchema.validate(secrets)
 if (error) {
-  logger.error('Env vars validation fail', error)
-  throw new Error(`Env vars validation error: ${error.message}`)
+  logger.error('Secrets validation fail', error)
+  throw new Error(`Secrets vars validation error: ${error.message}`)
 }

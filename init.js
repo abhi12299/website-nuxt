@@ -4,6 +4,7 @@ const prompt = require('prompt')
 const mongoose = require('mongoose')
 const Admin = require('./server/models/admin.model')
 const createIndex = require('./server/elasticClient/createIndex')
+const secrets = require('./secrets')
 
 console.log('Press Ctrl + C to quit at any time if the process hangs!')
 
@@ -21,7 +22,7 @@ prompt.get(promptAttributes, async (err, result) => {
   if (err) {
     console.error(err)
   } else {
-    const { MONGO_URI, ELASTIC_URL } = process.env
+    const { MONGO_URI, ELASTIC_URL } = secrets
     if (!MONGO_URI || !ELASTIC_URL) {
       console.log(
         'MONGO_URI and ELASTIC_URL is required in the .env file. Please specify it!'
@@ -30,7 +31,7 @@ prompt.get(promptAttributes, async (err, result) => {
     }
 
     try {
-      await mongoose.connect(process.env.MONGO_URI, {
+      await mongoose.connect(MONGO_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         autoIndex: false,

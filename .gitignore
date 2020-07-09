@@ -92,3 +92,4 @@ sw.*
 static/static/blogs
 
 constants/apiKeys.js
+secrets.js

@@ -2,12 +2,13 @@ const nodemailer = require('nodemailer')
 
 const logger = require('../logger')
 const Admin = require('../models/admin.model')
+const secrets = require('../../secrets')
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_PASS
+    user: secrets.GMAIL_USER,
+    pass: secrets.GMAIL_PASS
   }
 })
 
@@ -23,7 +24,7 @@ async function sendEmailToAdmins(subject, body) {
   to = to.slice(0, -1)
 
   const mailOpts = {
-    from: process.env.GMAIL_USER,
+    from: secrets.GMAIL_USER,
     subject,
     html: body,
     to

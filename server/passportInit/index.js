@@ -4,9 +4,10 @@ const Admin = require('../models/admin.model')
 const logger = require('../logger')
 const errorCodes = require('../constants/errorCodes')
 const baseURL = require('../constants/apiURL')
+const secrets = require('../../secrets')
 
 module.exports = (passport) => {
-  const { OAUTH_CLIENT_ID, CLIENT_SECRET } = process.env
+  const { OAUTH_CLIENT_ID, CLIENT_SECRET } = secrets
 
   passport.serializeUser((user, done) => {
     done(null, user)
