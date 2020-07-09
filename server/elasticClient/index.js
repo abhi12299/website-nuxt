@@ -1,7 +1,8 @@
 const elasticSearch = require('elasticsearch')
+const secrets = require('../../secrets')
 
 const elasticClient = new elasticSearch.Client({
-  hosts: process.env.ELASTIC_URL,
+  hosts: secrets.ELASTIC_URL,
   log: 'info'
 })
 

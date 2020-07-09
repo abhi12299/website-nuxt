@@ -1,6 +1,7 @@
 const bluebird = require('bluebird')
 const redis = require('redis')
 const logger = require('../logger')
+const secrets = require('../../secrets')
 
 class RedisDB {
   constructor() {
@@ -8,7 +9,7 @@ class RedisDB {
   }
 
   connectDB() {
-    const { REDIS_HOST, REDIS_PORT } = process.env
+    const { REDIS_HOST, REDIS_PORT } = secrets
 
     const client = this.redis.createClient({
       host: REDIS_HOST,
@@ -16,7 +17,7 @@ class RedisDB {
     })
 
     if (process.env.NODE_ENV === 'production') {
-      client.auth(process.env.REDIS_PASSWORD)
+      client.auth(secrets.REDIS_PASSWORD)
     }
 
     client.once('error', (err) => {

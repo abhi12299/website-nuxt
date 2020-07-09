@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 const Session = require('../models/session.model')
 const { verifyAdminToken } = require('../helpers')
 const emailHelperFunction = require('../helpers/emailHelper')
+const secrets = require('../../secrets')
 
 const authRouter = Router()
 
@@ -41,7 +42,7 @@ authRouter.get(
         token: req.user._id,
         sessionId
       },
-      process.env.JWT_SECRET
+      secrets.JWT_SECRET
     )
     res.cookie('token', token, { httpOnly: true })
     res.redirect('/dashboard')
@@ -55,7 +56,7 @@ authRouter.get('/logout', async (req, res) => {
     if (token) {
       await req.logout()
 
-      const { sessionId } = jwt.decode(token, process.env.JWT_SECRET)
+      const { sessionId } = jwt.decode(token, secrets.JWT_SECRET)
       await Session.destroyUserSession(sessionId)
       return res.json({ loggedOut: true })
     }

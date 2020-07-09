@@ -5,12 +5,14 @@ const passport = require('passport')
 const { Nuxt, Builder } = require('nuxt')
 
 const config = require('../nuxt.config.js')
+const secrets = require('../secrets')
 const logger = require('./logger')
 const middleware = require('./middleware')
 const passportInit = require('./passportInit')
 const apiRouter = require('./routes/apiRouter')
 const authRouter = require('./routes/authRouter')
 const errorCodes = require('./constants/errorCodes')
+
 require('./config')
 
 const app = express()
@@ -32,7 +34,7 @@ async function start() {
     await nuxt.ready()
   }
 
-  mongoose.connect(process.env.MONGO_URI, {
+  mongoose.connect(secrets.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     autoIndex: false,

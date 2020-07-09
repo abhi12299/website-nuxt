@@ -3,18 +3,22 @@
 To run this locally, clone this repo and `cd` in the project directory
 
 <ol>
-    <li>
-    <pre>echo "MONGO_URI=mongodb://localhost:27017/website
-    PORT=3001
-    REDIS_HOST='127.0.0.1'
-    REDIS_PORT=6379
-    REDIS_PASSWORD=''
-    OAUTH_CLIENT_ID='your-google-oauth-client-id'
-    CLIENT_SECRET='your-google-ouath-client-secret'
-    JWT_SECRET='your-jwt-secret'
-    GMAIL_USER='gmail-email'
-    GMAIL_PASS='gmail-pass'
-    ELASTIC_URL='elastic-url'" > .env</pre>
+    <li>Create a file secrets.js at the root of the project with the following info:
+    <pre>
+module.exports = {
+    MONGO_URI: 'mongodb://localhost:27017/website',
+    REDIS_HOST: '127.0.0.1',
+    REDIS_PORT: 6379,
+    REDIS_PASSWORD: '',
+    OAUTH_CLIENT_ID:
+        'google-clientid',
+    CLIENT_SECRET: 'google-client-secret',
+    JWT_SECRET: 'your jwt secret',
+    GMAIL_USER: 'gmail-id',
+    GMAIL_PASS: 'gmail-pass',
+    ELASTIC_URL: 'localhost:9200'
+}
+    </pre>
     <small>(* The server uses NodeMailer to send emails to admins!)</small>
     </li>
     <li>
@@ -55,5 +59,5 @@ To run this locally, clone this repo and `cd` in the project directory
 ## To access dashboard routes,
 <small>Assuming the website is running on localhost:3000</small> 
 1. Go to https://console.developers.google.com/ and create an OAUTH2 Api key for web. Specify localhost:3000 as authorized origin and localhost:3000/auth/redirect as redirect URI.
-2. Copy the client id and secret into .env file.
+2. Copy the client id and secret into <code>secrets.js</code> file.
 3. Go to localhost:3000/auth/login and you should be able to login with email that you specified earlier when doing <code>node init.js</code>

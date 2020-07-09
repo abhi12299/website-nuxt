@@ -4,10 +4,11 @@ const logger = require('../logger')
 const Admin = require('../models/admin.model')
 const Session = require('../models/session.model')
 const errorCodes = require('../constants/errorCodes')
+const secrets = require('../../secrets')
 
 module.exports = async (jwtToken) => {
   try {
-    const { token, sessionId } = jwt.verify(jwtToken, process.env.JWT_SECRET)
+    const { token, sessionId } = jwt.verify(jwtToken, secrets.JWT_SECRET)
     const admin = await Admin.findOne({ _id: token })
     if (!admin) {
       const err = new Error()
