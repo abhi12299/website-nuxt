@@ -2,7 +2,11 @@
   <article class="post-tile-v2" data-aos="fade-up">
     <div class="entry-media float-right">
       <nuxt-link :to="`/post/${post._id}`">
-        <img :src="post.headerImageURL" alt="post-image" />
+        <img
+          :data-src="post.headerImageURL"
+          class="lazyload"
+          alt="post-image"
+        />
       </nuxt-link>
     </div>
     <div class="entry-meta-content float-left">

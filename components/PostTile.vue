@@ -16,7 +16,11 @@
         </div>
       </div>
       <div class="entry-media">
-        <img :src="post.headerImageURL" alt="blog post header img" />
+        <img
+          :data-src="post.headerImageURL"
+          class="lazyload"
+          alt="blog post header img"
+        />
       </div>
       <div class="entry-content-bottom">
         <nuxt-link :to="postURL">

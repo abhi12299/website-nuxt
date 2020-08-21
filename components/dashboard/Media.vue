@@ -3,10 +3,10 @@
     <div class="card">
       <img
         v-if="media.type === 'image'"
-        :src="media.url"
+        :data-src="media.url"
         @click="handlePreview"
         alt="Card image cap"
-        class="card-img-top media-card-img"
+        class="lazyload card-img-top media-card-img"
       />
       <video
         v-else
