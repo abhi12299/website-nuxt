@@ -13,9 +13,9 @@
     >
       <div v-if="selectedMedia" class="delete-media-container">
         <img
-          :src="selectedMedia.url"
+          :data-src="selectedMedia.url"
           v-if="selectedMedia.type === 'image'"
-          class="delete-media-img"
+          class="lazyload delete-media-img"
         />
         <video
           v-else

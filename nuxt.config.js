@@ -37,7 +37,8 @@ module.exports = {
   plugins: [
     { src: '~/plugins/toastr-init', mode: 'client' },
     { src: '~/plugins/aos', mode: 'client' },
-    { src: '~/plugins/removePreloader', mode: 'client' }
+    { src: '~/plugins/removePreloader', mode: 'client' },
+    { src: '~/plugins/lazysizes-client.js', mode: 'client' }
   ],
   /*
    ** Nuxt.js dev-modules
@@ -172,5 +173,6 @@ module.exports = {
         density: '4.0'
       }
     ]
-  }
+  },
+  telemetry: false
 }

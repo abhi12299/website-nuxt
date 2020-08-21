@@ -16,12 +16,16 @@
         <!-- Part 2 header image -->
         <div class="col-lg-12">
           <div class="entry-media">
-            <img :src="blogPost.headerImageURL" alt="header image" />
+            <img
+              :data-src="blogPost.headerImageURL"
+              class="lazyload"
+              alt="header image"
+            />
           </div>
         </div>
         <!-- Part 3 content -->
         <div class="col-lg-8 offset-lg-2 bottom-border">
-          <div v-html="blogPost.body" class="entry-content" />
+          <div v-html="blogPostbody" class="entry-content" />
           <div class="entry-share-div">
             <h5>Share :</h5>
             <ul class="social-text light list-inline">
@@ -80,7 +84,7 @@
                 :key="mk"
                 class="list-inline-item"
               >
-                <a>{{ mk }}</a>
+                <nuxt-link :to="`/blog?keywords=${mk}`">#{{ mk }}</nuxt-link>
               </li>
             </ul>
           </div>
@@ -99,6 +103,7 @@
 
 <script>
 import $ from 'jquery'
+import cheerio from 'cheerio'
 import utils from '../utils'
 import keys from '../constants/apiKeys'
 import baseURL from '~/constants/apiURL'
@@ -121,6 +126,23 @@ export default {
     }
   },
   computed: {
+    blogPostbody() {
+      const { body } = this.$props.blogPost
+      const container = cheerio.parseHTML(`<div>${body}</div>`)
+
+      cheerio(container[0])
+        .find('img')
+        .each(function(idx, img) {
+          const { src } = img.attribs
+          cheerio(img)
+            .removeAttr('src')
+            .attr('data-src', src)
+            .addClass('lazyload')
+        })
+      // set all images class to be lazyloaded
+      // remove all src attribs and replace with data-src
+      return cheerio(container).html()
+    },
     sharer() {
       const url = this.shareURL
       return utils.getShareURL(url)
@@ -398,6 +420,12 @@ export default {
 
 .single-post .taglist li {
   padding-right: 15px;
+  font-family: PoppinsBold;
+  font-weight: bold;
+}
+
+.single-post .taglist li a:hover {
+  text-decoration: underlineg;
 }
 
 .single-post .taglist li a,
