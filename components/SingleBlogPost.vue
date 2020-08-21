@@ -425,7 +425,7 @@ export default {
 }
 
 .single-post .taglist li a:hover {
-  text-decoration: underline;
+  text-decoration: underlineg;
 }
 
 .single-post .taglist li a,

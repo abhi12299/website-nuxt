@@ -4,7 +4,7 @@ workbox.routing.registerRoute(
   new workbox.strategies.CacheFirst({
     cacheName: 'assets',
     plugins: [
-      new workbox.expiration.Plugin({
+      new workbox.expiration.ExpirationPlugin({
         maxEntries: 30,
         maxAgeSeconds: 24 * 60 * 60
       })
@@ -16,7 +16,7 @@ workbox.routing.registerRoute(
 workbox.routing.registerRoute(
   /\.(mp4|webm)/,
   new workbox.strategies.CacheFirst({
-    plugins: [new workbox.rangeRequests.Plugin()]
+    plugins: [new workbox.rangeRequests.RangeRequestsPlugin()]
   }),
   'GET'
 )
