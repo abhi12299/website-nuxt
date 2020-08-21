@@ -11,7 +11,8 @@ export const state = () => ({
   data: null,
   count: 0,
   page: 1,
-  pathname: '' // this is used in 2 routes, hence for distinction
+  pathname: '', // this is used in 2 routes, hence for distinction
+  keywords: null
 })
 
 export const mutations = {
@@ -25,6 +26,7 @@ export const mutations = {
     state.count = payload.count
     state.page = payload.page
     state.pathname = payload.pathname
+    state.keywords = payload.keywords
   },
   [types.SET_POSTS_ERROR](state, payload) {
     state.loading = false
@@ -51,11 +53,16 @@ export const actions = {
     page = page ? (isNaN(parseInt(page)) ? 1 : parseInt(page)) : 1
     page = page > 0 ? page : 1
 
+    const isKeywordFilterSame =
+      (!state.keywords && !keywords) || // when both are nullish
+      state.keywords?.toString() === keywords?.toString()
+
     if (
       state.data &&
       state.page === page &&
       !state.error &&
-      state.pathname === '/blog'
+      state.pathname === '/blog' &&
+      isKeywordFilterSame
     ) {
       return
     }
@@ -105,7 +112,8 @@ export const actions = {
           data: resp.data,
           count: resp.count,
           page,
-          pathname: '/blog'
+          pathname: '/blog',
+          keywords
         })
       }
     } catch (error) {

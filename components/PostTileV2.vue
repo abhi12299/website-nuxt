@@ -16,7 +16,12 @@
         </h2>
       </nuxt-link>
       <span class="entry-meta">
-        {{ post.metaKeywords }} <span>- </span>
+        <span v-for="(mk, idx) in metaKeywords" :key="idx" class="mk-link">
+          <nuxt-link :to="`/blog?keywords=${mk}`">
+            #{{ mk }} {{ idx !== metaKeywords.length - 1 ? ', ' : '' }}
+          </nuxt-link>
+        </span>
+        <span>- </span>
         {{ postedDate }}
       </span>
       <div class="entry-content-bottom">
@@ -124,6 +129,10 @@ export default {
     },
     shareURL() {
       return `${baseURL}/post/${this.$props.post._id}`
+    },
+    metaKeywords() {
+      const { post } = this.$props
+      return post.metaKeywords.split(',').map((mk) => mk.trim())
     }
   },
   mounted() {
@@ -238,6 +247,14 @@ export default {
 
 .post-tile-v2 .blog-ss-icons {
   font-size: 1.6em;
+}
+
+.mk-link {
+  font-weight: bold;
+}
+
+.mk-link a:hover {
+  text-decoration: underline;
 }
 
 @media (max-width: 1200px) {

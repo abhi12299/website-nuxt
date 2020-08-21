@@ -11,7 +11,7 @@
         </nuxt-link>
         <div class="entry-meta row">
           <div v-for="mk in post.metaKeywords" :key="mk" class="meta-tags">
-            #{{ mk }}
+            <nuxt-link :to="`/blog?keywords=${mk}`"> #{{ mk }} </nuxt-link>
           </div>
         </div>
       </div>
@@ -230,8 +230,12 @@ export default {
 }
 
 .meta-tags {
-  text-decoration: underline;
+  /* text-decoration: underline; */
   display: inline;
+}
+
+.meta-tags a:hover {
+  text-decoration: underline;
 }
 
 .meta-tags:not(:last-child) {

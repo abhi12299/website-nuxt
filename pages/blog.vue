@@ -24,7 +24,7 @@ export default {
     AllBlogs,
     Pagination
   },
-  watchQuery: ['page'],
+  watchQuery: ['page', 'keywords'],
   data() {
     return {
       metaDesc: `Check out these interesting blogs written by me, ranging from basics of javascript and other languages to advanced concepts.`,

@@ -84,7 +84,7 @@
                 :key="mk"
                 class="list-inline-item"
               >
-                <a>{{ mk }}</a>
+                <nuxt-link :to="`/blog?keywords=${mk}`">#{{ mk }}</nuxt-link>
               </li>
             </ul>
           </div>
@@ -420,6 +420,12 @@ export default {
 
 .single-post .taglist li {
   padding-right: 15px;
+  font-family: PoppinsBold;
+  font-weight: bold;
+}
+
+.single-post .taglist li a:hover {
+  text-decoration: underline;
 }
 
 .single-post .taglist li a,
