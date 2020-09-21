@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import $ from 'jquery'
 import baseURL from '~/constants/apiURL'
 

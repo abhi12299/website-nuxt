@@ -2,7 +2,7 @@ export default [
   'Vue',
   'ReactJS',
   'NextJS',
-  'Go',
+  'Graphql',
   'NodeJS',
   'MongoDB',
   'Firebase',
