@@ -28,23 +28,6 @@
             </li>
           </ul>
         </div>
-        <div class="col-lg-3 col-md-12 widget subscribe-form">
-          <span class="widget-title">Subscribe for awesome blogs</span>
-          <form @submit.prevent="handleSubscribe" class="mt-3">
-            <input
-              :value="email"
-              v-on:input="handleEmailChange"
-              type="email"
-              placeholder="Your email address"
-            />
-            <div v-if="loading" class="subscribe-btn">
-              <LoadingSVG width="20px" height="15px" />
-            </div>
-            <button v-else class="subscribe-btn">
-              <font-awesome-icon :icon="['fas', 'arrow-right']" />
-            </button>
-          </form>
-        </div>
       </div>
       <div class="row pad-top-50">
         <div class="col-lg-3 col-md-4 widget social-share-container">
@@ -106,61 +89,6 @@
     </div>
   </section>
 </template>
-
-<script>
-import fetch from 'isomorphic-unfetch'
-import { showToast } from '../utils/toasts'
-import LoadingSVG from './LoadingSVG'
-import baseURL from '~/constants/apiURL'
-
-export default {
-  components: {
-    LoadingSVG
-  },
-  data() {
-    return {
-      email: '',
-      loading: false
-    }
-  },
-  methods: {
-    handleEmailChange(e) {
-      this.email = e.target.value
-    },
-    async handleSubscribe() {
-      const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-
-      if (!emailRegex.test(this.email)) {
-        showToast('Please enter a valid email address!', 'error')
-      } else {
-        this.loading = true
-        try {
-          const resp = await fetch(`${baseURL}/api/subscribe`, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email: this.email })
-          })
-          const result = await resp.json()
-          this.loading = false
-          if (result.error) {
-            throw new Error(result.msg)
-          }
-          showToast('Get ready to receive awesome content!', 'success')
-          this.email = ''
-        } catch (err) {
-          showToast(
-            err.message || 'Something went wrong! Please try again later.',
-            'error'
-          )
-        }
-      }
-    }
-  }
-}
-</script>
 
 <style scoped>
 .footer-wrapper .widget-over {

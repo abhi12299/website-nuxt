@@ -3,7 +3,6 @@ require('dotenv').config()
 const prompt = require('prompt')
 const mongoose = require('mongoose')
 const Admin = require('./server/models/admin.model')
-const createIndex = require('./server/elasticClient/createIndex')
 const secrets = require('./secrets')
 
 console.log('Press Ctrl + C to quit at any time if the process hangs!')
@@ -22,8 +21,8 @@ prompt.get(promptAttributes, async (err, result) => {
   if (err) {
     console.error(err)
   } else {
-    const { MONGO_URI, ELASTIC_URL } = secrets
-    if (!MONGO_URI || !ELASTIC_URL) {
+    const { MONGO_URI } = secrets
+    if (!MONGO_URI) {
       console.log(
         'MONGO_URI and ELASTIC_URL is required in the .env file. Please specify it!'
       )
@@ -57,13 +56,6 @@ prompt.get(promptAttributes, async (err, result) => {
     console.log('Cannot insert email to admins collection!')
     console.error(error)
     return
-  }
-
-  try {
-    await createIndex()
-  } catch (error) {
-    console.log('Cannot create index post in elasticsearch cluster!')
-    console.error(error)
   }
   console.log('Done! Press Ctrl + C to quit!')
 })

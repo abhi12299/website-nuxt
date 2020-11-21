@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const logger = require('../logger')
-const elasticSearchHelper = require('../elasticClient/helper')
 
 const Schema = mongoose.Schema
 const PostSchema = new Schema(
@@ -10,8 +9,7 @@ const PostSchema = new Schema(
     },
     title: {
       type: String,
-      required: true,
-      unique: true
+      required: true
     },
     headerImageURL: {
       type: String
@@ -28,8 +26,7 @@ const PostSchema = new Schema(
     postedDate: {
       type: Number,
       required: true,
-      default: Date.now(),
-      index: true
+      default: Date.now()
     },
     body: {
       type: String,
@@ -54,6 +51,7 @@ const PostSchema = new Schema(
 )
 
 PostSchema.index({ postedDate: -1 })
+PostSchema.index({ title: 'text', metaDescription: 'text' })
 
 PostSchema.statics = {
   async savePost(postObj) {
@@ -202,27 +200,21 @@ PostSchema.statics = {
       }
 
       sortOrder = parseInt(sortOrder) || -1
-
-      const { data, error } = await elasticSearchHelper.suggestions({
-        q,
-        sortBy,
-        sortOrder,
-        published
-      })
-      if (error) {
-        return { data: [], error: true }
-      }
-
-      const aggrQuery = [
-        {
-          $match: {
-            _id: {
-              $in: data.map((d) => d._id)
-            }
+      const matchQuery = {
+        $match: {
+          $text: {
+            $search: q
           }
-        },
+        }
+      }
+      if (typeof published !== 'undefined') {
+        matchQuery.$match.published = published
+      }
+      const aggrQuery = [
+        matchQuery,
         {
           $sort: {
+            score: { $meta: 'textScore' },
             [sortBy]: sortOrder
           }
         },
@@ -254,26 +246,22 @@ PostSchema.statics = {
 
       sortOrder = parseInt(sortOrder) || -1
 
-      const { data, error, count } = await elasticSearchHelper.suggestions({
-        q,
-        sortBy,
-        sortOrder,
-        published
-      })
-      if (error) {
-        return { data: [], error: true, count: 0 }
+      const matchQuery = {
+        $match: {
+          $text: {
+            $search: q
+          }
+        }
+      }
+      if (typeof published !== 'undefined') {
+        matchQuery.$match.published = published
       }
 
       const aggrQuery = [
-        {
-          $match: {
-            _id: {
-              $in: data.map((d) => d._id)
-            }
-          }
-        },
+        matchQuery,
         {
           $sort: {
+            score: { $meta: 'textScore' },
             [sortBy]: sortOrder
           }
         },
@@ -292,6 +280,7 @@ PostSchema.statics = {
         }
       ]
       const posts = await this.aggregate(aggrQuery)
+      const count = await this.countDocuments(matchQuery.$match)
 
       return {
         data: posts,

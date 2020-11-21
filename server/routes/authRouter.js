@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken')
 
 const Session = require('../models/session.model')
 const { verifyAdminToken } = require('../helpers')
-const emailHelperFunction = require('../helpers/emailHelper')
 const secrets = require('../../secrets')
 
 const authRouter = Router()
@@ -18,10 +17,6 @@ authRouter.get(
       if (valid) {
         return res.redirect('/dashboard')
       }
-      //  else {
-      //   // send email to admins
-      //   emailHelperFunction(error.code, error.data, req)
-      // }
     }
     next()
   },
@@ -76,17 +71,11 @@ authRouter.get('/verify', async (req, res) => {
     return res.json({ valid: false, emptyToken: true })
   }
 
-  const { valid, error } = await verifyAdminToken(token)
+  const { valid } = await verifyAdminToken(token)
   if (valid) {
     return res.json({ valid: true })
-  } else {
-    // send email to admins
-    if (process.env.NODE_ENV === 'production') {
-      emailHelperFunction(error.code, error.data, req)
-    }
-
-    return res.json({ valid: false, emptyToken: false })
   }
+  return res.json({ valid: false, emptyToken: false })
 })
 
 module.exports = authRouter
