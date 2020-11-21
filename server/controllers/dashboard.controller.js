@@ -6,9 +6,6 @@ const multer = require('multer')
 const Media = require('../models/media.model')
 const Post = require('../models/post.model')
 const Queries = require('../models/queries.model')
-const createIndex = require('../elasticClient/createIndex')
-const bulkInsertPosts = require('../elasticClient/bulkInsertPosts')
-const elasticSearchHelper = require('../elasticClient/helper')
 const logger = require('../logger')
 const {
   validatePost,
@@ -69,24 +66,6 @@ dashboardRouter.post('/savePost', async (req, res) => {
     isPostPublishable
   })
   if (savedPost) {
-    const elasticPostBody = {
-      id: savedPost._id,
-      title: savedPost.title,
-      metaDescription: savedPost.metaDescription,
-      published: savedPost.published,
-      postedDate: savedPost.postedDate
-    }
-    const { error } = await elasticSearchHelper.addPost(elasticPostBody)
-    if (error) {
-      logger.error('Cannot index post', savedPost, error)
-      // delete the savedPost
-      await Post.deleteOne({ _id: savedPost._id })
-      return res.json({
-        error: true,
-        msg:
-          'The post could not be indexed by elastic client! The post was removed. Please try again!'
-      })
-    }
     await Media.updateMedias(attachedMedia, {
       $inc: { usedInUnpublishedPosts: 1 }
     })
@@ -101,23 +80,6 @@ dashboardRouter.post('/savePost', async (req, res) => {
         'Something went wrong while saving the post! Please check the server logs.'
     })
   }
-})
-
-dashboardRouter.get('/bulkIndex', async (req, res) => {
-  const error = await createIndex()
-  if (error) {
-    return res
-      .status(500)
-      .json({ error: true, msg: 'Something went wrong!', reason: error })
-  }
-  const response = await bulkInsertPosts()
-  if (response.error) {
-    return res
-      .status(500)
-      .json({ error: true, msg: 'Something went wrong!', reason: error })
-  }
-
-  return res.json({ error: false, msg: `${response.postCount} posts indexed!` })
 })
 
 dashboardRouter.get('/getPosts', async (req, res) => {
@@ -206,9 +168,6 @@ dashboardRouter.post('/setPublished', async (req, res) => {
     }
 
     const post = await Post.setPublished(_id, published)
-    /* const { error } = */ await elasticSearchHelper.updatePost(_id, {
-      published
-    })
 
     const { media } = post || { media: [] }
 
@@ -278,9 +237,6 @@ dashboardRouter.patch('/editPost', async (req, res) => {
   if (newPostId !== oldPost._id && !keepOldId) {
     // delete old post
     await Post.deleteOne({ _id: oldPost._id })
-    try {
-      await elasticSearchHelper.deletePost(oldPost._id)
-    } catch (error) {} // not a fatal error
 
     try {
       newPost = await Post.savePost({
@@ -295,17 +251,9 @@ dashboardRouter.patch('/editPost', async (req, res) => {
         media: newAttachedMedia,
         isPostPublishable
       })
-      const elasticPostBody = {
-        id: newPost._id,
-        title: newPost.title,
-        metaDescription,
-        published: newPost.published,
-        postedDate: newPost.postedDate
-      }
-      await elasticSearchHelper.addPost(elasticPostBody)
     } catch (error) {
       // we do not want to delete this post from db here unlike in savePost
-      logger.error('Edit post cannot add updated post to elasticsearch', error)
+      logger.error('Cannot update post', error)
     }
   } else {
     // update the old post
@@ -318,15 +266,6 @@ dashboardRouter.patch('/editPost', async (req, res) => {
       media: newAttachedMedia,
       isPostPublishable
     })
-    try {
-      const elasticPostUpdates = {
-        title: newPost.title,
-        metaDescription
-      }
-      await elasticSearchHelper.updatePost(newPost._id, elasticPostUpdates)
-    } catch (error) {
-      logger.error('Cannot update post', error)
-    }
   }
 
   // find current attached media

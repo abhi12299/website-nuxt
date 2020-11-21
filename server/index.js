@@ -37,7 +37,6 @@ async function start() {
   mongoose.connect(secrets.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    autoIndex: false,
     useFindAndModify: false
   })
   const db = mongoose.connection

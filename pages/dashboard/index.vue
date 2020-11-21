@@ -40,7 +40,6 @@ export default {
       resp = await resp.json()
       return { queries: resp.data }
     } catch (error) {
-      console.log('error:', error)
       return { queries: 0 }
     }
   },

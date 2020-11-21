@@ -7,19 +7,12 @@ To run this locally, clone this repo and `cd` in the project directory
     <pre>
 module.exports = {
     MONGO_URI: 'mongodb://localhost:27017/website',
-    REDIS_HOST: '127.0.0.1',
-    REDIS_PORT: 6379,
-    REDIS_PASSWORD: '',
     OAUTH_CLIENT_ID:
         'google-clientid',
     CLIENT_SECRET: 'google-client-secret',
-    JWT_SECRET: 'your jwt secret',
-    GMAIL_USER: 'gmail-id',
-    GMAIL_PASS: 'gmail-pass',
-    ELASTIC_URL: 'localhost:9200'
+    JWT_SECRET: 'your jwt secret'
 }
     </pre>
-    <small>(* The server uses NodeMailer to send emails to admins!)</small>
     </li>
     <li>
         Make a file <pre>constants/apiKeys.js</pre> with the following contents:
