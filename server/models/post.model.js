@@ -214,7 +214,11 @@ PostSchema.statics = {
         matchQuery,
         {
           $sort: {
-            score: { $meta: 'textScore' },
+            score: { $meta: 'textScore' }
+          }
+        },
+        {
+          $sort: {
             [sortBy]: sortOrder
           }
         },
@@ -262,7 +266,11 @@ PostSchema.statics = {
         matchQuery,
         {
           $sort: {
-            score: { $meta: 'textScore' },
+            score: { $meta: 'textScore' }
+          }
+        },
+        {
+          $sort: {
             [sortBy]: sortOrder
           }
         },
