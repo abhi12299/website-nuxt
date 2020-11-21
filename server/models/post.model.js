@@ -234,6 +234,7 @@ PostSchema.statics = {
         error: false
       }
     } catch (error) {
+      logger.error('getSuggestions error', error)
       return { data: [], error: true }
     }
   },
@@ -288,6 +289,7 @@ PostSchema.statics = {
         count
       }
     } catch (error) {
+      logger.error('getSearchResults error', error)
       return { data: [], error: true, count: 0 }
     }
   },
