@@ -23,6 +23,16 @@
                       rel="noopener"
                       >SoDelhi</a
                     >
+                    - Aug 2019 to Dec 2020
+                  </li>
+                  <li>
+                    Software Engineer @<a
+                      href="https://evalueserve.com"
+                      target="_blank"
+                      rel="noopener"
+                      >Evalueserve</a
+                    >
+                    - Dec 2020 to Present
                   </li>
                 </ul>
               </div>
