@@ -17,15 +17,6 @@
                 <b>Work Experience</b>
                 <ul>
                   <li>
-                    MERN Stack Developer @<a
-                      href="https://so.city"
-                      target="_blank"
-                      rel="noopener"
-                      >SoDelhi</a
-                    >
-                    - Aug 2019 to Dec 2020
-                  </li>
-                  <li>
                     Software Engineer @<a
                       href="https://evalueserve.com"
                       target="_blank"
@@ -33,6 +24,15 @@
                       >Evalueserve</a
                     >
                     - Dec 2020 to Present
+                  </li>
+                  <li>
+                    MERN Stack Developer @<a
+                      href="https://so.city"
+                      target="_blank"
+                      rel="noopener"
+                      >SoDelhi</a
+                    >
+                    - Aug 2019 to Dec 2020
                   </li>
                 </ul>
               </div>
