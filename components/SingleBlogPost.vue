@@ -242,6 +242,10 @@ export default {
 </script>
 
 <style>
+.entry-content img {
+  cursor: pointer;
+}
+
 .single-post {
   font-family: Lato, Helvetica, sans-serif;
 }
