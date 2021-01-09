@@ -38,7 +38,8 @@ module.exports = {
     { src: '~/plugins/toastr-init', mode: 'client' },
     { src: '~/plugins/aos', mode: 'client' },
     { src: '~/plugins/removePreloader', mode: 'client' },
-    { src: '~/plugins/lazysizes-client.js', mode: 'client' }
+    { src: '~/plugins/lazysizes-client.js', mode: 'client' },
+    { src: '~/plugins/lightgallery-client.js', mode: 'client' }
   ],
   /*
    ** Nuxt.js dev-modules
