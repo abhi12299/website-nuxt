@@ -25,7 +25,7 @@
         </div>
         <!-- Part 3 content -->
         <div class="col-lg-8 offset-lg-2 bottom-border">
-          <div v-html="blogPostbody" class="entry-content" />
+          <div id="entry-content" v-html="blogPostbody" class="entry-content" />
           <div class="entry-share-div">
             <h5>Share :</h5>
             <ul class="social-text light list-inline">
@@ -153,6 +153,9 @@ export default {
   },
   mounted() {
     window.addEventListener('scroll', this.trackProgress)
+    window.lightGallery(document.getElementById('entry-content'), {
+      selector: 'img'
+    })
     this.nativeShare = !!navigator.share
     const { enableComments } = this.$props
     if (!enableComments) return
