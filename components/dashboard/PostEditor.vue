@@ -41,19 +41,17 @@
           { text: 'HTML/XML', value: 'markup' },
           { text: 'JavaScript', value: 'javascript' },
           { text: 'CSS', value: 'css' },
-          { text: 'PHP', value: 'php' },
-          { text: 'Ruby', value: 'ruby' },
           { text: 'Python', value: 'python' },
-          { text: 'Java', value: 'java' },
-          { text: 'C', value: 'c' },
-          { text: 'C#', value: 'csharp' },
-          { text: 'C++', value: 'cpp' },
           { text: 'Go', value: 'go' },
           { text: 'Bash', value: 'bash' },
           { text: 'Docker', value: 'docker' },
           { text: 'HTTP', value: 'http' },
           { text: 'Markdown', value: 'markdown' },
-          { text: 'React', value: 'jsx' }
+          { text: 'React JSX', value: 'jsx' },
+          { text: 'React TSX', value: 'tsx' },
+          { text: 'Typescript', value: 'ts' },
+          { text: 'Graphql', value: 'graphql' },
+          { text: 'JSON', value: 'json' }
         ],
         video_template_callback: handleVideoInput
       }"
