@@ -769,6 +769,10 @@ li {
   transition: all 0.3s 1.5s ease-out;
 }
 
+.lg-backdrop.in {
+  opacity: 0.8 !important;
+}
+
 /* RESPONSIVE SECTION */
 
 @media (min-width: 1800px) {

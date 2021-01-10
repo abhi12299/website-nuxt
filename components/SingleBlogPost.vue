@@ -154,7 +154,9 @@ export default {
   mounted() {
     window.addEventListener('scroll', this.trackProgress)
     window.lightGallery(document.getElementById('entry-content'), {
-      selector: 'img'
+      selector: 'img',
+      width: '700px',
+      height: '470px'
     })
     this.nativeShare = !!navigator.share
     const { enableComments } = this.$props
