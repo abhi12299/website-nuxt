@@ -6985,11 +6985,6 @@ levn@^0.3.0, levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-lg-hash.js@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/lg-hash.js/-/lg-hash.js-1.0.0.tgz#2dc56e1066c30211e37a4ec42e3293b2d99e7c62"
-  integrity sha1-LcVuEGbDAhHjek7ELjKTstmefGI=
-
 lg-zoom.js@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/lg-zoom.js/-/lg-zoom.js-1.3.0.tgz#0134c030d5f4f0bbc2b5a317bd47243b565bcb99"
