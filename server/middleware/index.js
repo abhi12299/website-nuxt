@@ -8,5 +8,5 @@ module.exports = (server) => {
   server.use(bodyParser.urlencoded({ extended: true }))
   server.use(cookieParser())
   server.use(compression())
-  server.use(helmet({ hsts: false }))
+  server.use(helmet())
 }
