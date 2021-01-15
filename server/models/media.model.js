@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const logger = require('../logger')
 const baseURL = require('../constants/apiURL')
-const optimizeImage = require('../helpers/optimizeImage')
+// const optimizeImage = require('../helpers/optimizeImage')
 
 const Schema = mongoose.Schema
 const MediaSchema = new Schema(
@@ -140,7 +140,7 @@ MediaSchema.statics = {
 }
 
 MediaSchema.post('save', (doc, next) => {
-  optimizeImage(doc._id)
+  // optimizeImage(doc._id)
   next()
 })
 
