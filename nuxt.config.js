@@ -20,7 +20,14 @@ module.exports = {
         content: 'Abhishek Mehandiratta | Web Developer'
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    script: [
+      {
+        src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
+        async: true,
+        'data-ad-client': 'ca-pub-6164887137282688'
+      }
+    ]
     // script: [{ src: '/removePreloader.js' }]
   },
   /*
