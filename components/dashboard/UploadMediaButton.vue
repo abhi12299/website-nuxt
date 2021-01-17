@@ -65,22 +65,23 @@ export default {
         switch (type) {
           case 'image-svg':
           case 'image-gif':
+          case 'image':
             this.upload(file, this.filename)
             break
-          case 'image':
-            let url
-            if (URL) {
-              url = URL.createObjectURL(file)
-              this.imageBlob = url
-            } else if (FileReader) {
-              const reader = new FileReader()
-              reader.onload = function(e) {
-                url = reader.result
-                this.imageBlob = url
-              }
-              reader.readAsDataURL(file)
-            }
-            break
+          // case 'image':
+          //   let url
+          //   if (URL) {
+          //     url = URL.createObjectURL(file)
+          //     this.imageBlob = url
+          //   } else if (FileReader) {
+          //     const reader = new FileReader()
+          //     reader.onload = function(e) {
+          //       url = reader.result
+          //       this.imageBlob = url
+          //     }
+          //     reader.readAsDataURL(file)
+          //   }
+          //   break
           case 'video':
             const fileSizeInMB = file.size * 1e-6
             if (fileSizeInMB >= 20) {
