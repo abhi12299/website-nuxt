@@ -109,7 +109,7 @@ export default {
         { name: 'Home', to: '/' },
         { name: 'About Me', to: '/about' },
         { name: 'Contact', to: '/contact' },
-        { name: 'Blog Posts', to: '/blog' }
+        { name: 'Blog', to: '/blog' }
       ]
     },
     handleScroll() {
@@ -166,7 +166,7 @@ export default {
   height: 25px;
 }
 
-/* DOESN'T WORK! 
+/* DOESN'T WORK!
 .header-wrapper.sticky+.main-body-content {
     padding-top: 75px;
 } */
