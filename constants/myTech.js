@@ -1,11 +1,11 @@
 export default [
-  'Vue',
   'ReactJS',
   'NextJS',
-  'Graphql',
   'NodeJS',
   'MongoDB',
+  'Graphql',
   'Firebase',
-  'Docker',
-  'Kubernetes'
+  'Vue',
+  'Postgres',
+  'NestJS'
 ]
